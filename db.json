@@ -1,0 +1,119 @@
+{
+  "users": [
+    {
+      "id": "admin1",
+      "name": "Super Admin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "bda0",
+      "name": "Hello",
+      "email": "Hello@gmail.com",
+      "password": "Hello@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "f6a2",
+      "name": "ag",
+      "email": "ag@gmail.com",
+      "password": "ag@gmail.com",
+      "role": "admin"
+    },
+    {
+      "id": "53a8",
+      "name": "ae",
+      "email": "ae@gmail.com",
+      "password": "ae@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "91f9",
+      "name": "aby",
+      "email": "aby@gmail.com",
+      "password": "aby@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "8e78",
+      "name": "a",
+      "email": "a@gmail.com",
+      "password": "a@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "b514",
+      "name": "b",
+      "email": "b@gmail.com",
+      "password": "b@gmail.com",
+      "role": "admin"
+    },
+    {
+      "id": "8699",
+      "name": "c",
+      "email": "c@gmail.com",
+      "password": "c@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "b2f8",
+      "name": "d",
+      "email": "d@gmail.com",
+      "password": "d@gmail.com",
+      "role": "user"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Pedigree Adult Dog Food",
+      "category": "Dog",
+      "price": 450,
+      "description": "Complete and balanced dog food for adult dogs.",
+      "rating": 4.5,
+      "stock": 20,
+      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "2",
+      "name": "Whiskas Dry Cat Food",
+      "category": "Cat",
+      "price": 380,
+      "description": "Tasty and nutritious cat food for healthy fur.",
+      "rating": 4.2,
+      "stock": 15,
+      "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6"
+    },
+    {
+      "id": "3",
+      "name": "Bird Cage – Medium",
+      "category": "Bird",
+      "price": 900,
+      "description": "Comfortable and spacious cage for small birds.",
+      "rating": 4,
+      "stock": 10,
+      "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "4",
+      "name": "Aquarium Starter Kit",
+      "category": "Fish",
+      "price": 1200,
+      "description": "Includes tank, filter, and lights – great for beginners.",
+      "rating": 4.6,
+      "stock": 8,
+      "image": "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "5",
+      "name": "Dog Chew Toy (Set of 3)",
+      "category": "Dog",
+      "price": 250,
+      "description": "Durable and fun chew toys to keep your dog entertained.",
+      "rating": 4.3,
+      "stock": 30,
+      "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
+}
