@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishListContext"; // ✅ Import wishlist
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist(); // ✅ Access wishlist function
 
   useEffect(() => {
     axios
@@ -18,18 +22,25 @@ const ProductDetails = () => {
   if (!product) return <div className="text-center p-8">Loading...</div>;
 
   const handleAddToCart = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Avoid duplicates
-    const existing = cart.find((item) => item.id === product.id);
-    if (existing) {
-      alert("Product is already in the cart.");
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please log in to add items to your cart.");
       return;
     }
 
-    cart.push({ ...product, quantity: 1 });
-    localStorage.setItem("cart", JSON.stringify(cart));
+    addToCart(product);
     alert("Product added to cart!");
+  };
+
+  const handleAddToWishlist = () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please log in to add items to your wishlist.");
+      return;
+    }
+
+    addToWishlist(product);
+    alert("Product added to wishlist!");
   };
 
   return (
@@ -57,12 +68,21 @@ const ProductDetails = () => {
           </p>
           <p className="text-sm text-gray-500 mb-4">Stock: {product.stock}</p>
           <p className="mb-6">{product.description}</p>
-          <button
-            onClick={handleAddToCart}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Add to Cart
-          </button>
+
+          <div className="flex gap-4">
+            <button
+              onClick={handleAddToCart}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Add to Cart
+            </button>
+            <button
+              onClick={handleAddToWishlist}
+              className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
+            >
+              ❤️ Add to Wishlist
+            </button>
+          </div>
         </div>
       </div>
     </div>

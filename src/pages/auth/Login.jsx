@@ -6,36 +6,33 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { BASE_URL } from "../../services/base";
+import { useAuth } from "../../context/AuthContext"; // ✅ import auth context
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // ✅ get login function from context
 
-  // Initial form values
   const initialValues = {
     email: "",
     password: "",
   };
 
-  // Validation schema
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
 
-  // Form submit handler
   const handleSubmit = async (values, actions) => {
     try {
       const res = await axios.get(`${BASE_URL}/users`);
 
-      // Check user credentials
       const user = res.data.find(
         (user) =>
           user.email === values.email && user.password === values.password
       );
 
       if (user) {
-        // Save only the userId in localStorage
-        localStorage.setItem("userId", user.id);
+        login(user.id, user.role); // ✅ use context instead of localStorage
 
         // Redirect based on role
         if (user.role === "admin") {

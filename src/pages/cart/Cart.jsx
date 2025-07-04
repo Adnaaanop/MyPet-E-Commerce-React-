@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useCart } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
-
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
+  const { cartItems, increaseQuantity, decreaseQuantity } = useCart();
+  const navigate = useNavigate();
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -34,9 +32,22 @@ const Cart = () => {
                 />
                 <div>
                   <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-gray-600">
-                    ₹{item.price} x {item.quantity}
-                  </p>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    ₹{item.price} x
+                    <button
+                      onClick={() => decreaseQuantity(item.id)}
+                      className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      −
+                    </button>
+                    {item.quantity}
+                    <button
+                      onClick={() => increaseQuantity(item.id)}
+                      className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
               <p className="font-bold text-green-600">
@@ -47,6 +58,15 @@ const Cart = () => {
 
           <div className="text-right font-bold text-xl mt-4">
             Total: ₹{totalPrice}
+          </div>
+
+          <div className="text-right mt-4">
+            <button
+              onClick={() => navigate("/checkout")}
+              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       )}

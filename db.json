@@ -62,6 +62,13 @@
       "email": "d@gmail.com",
       "password": "d@gmail.com",
       "role": "user"
+    },
+    {
+      "id": "d954",
+      "name": "Sinan",
+      "email": "sinan@gmail.com",
+      "password": "sinan@gmail.com",
+      "role": "user"
     }
   ],
   "products": [
@@ -82,7 +89,7 @@
       "price": 380,
       "description": "Tasty and nutritious cat food for healthy fur.",
       "rating": 4.2,
-      "stock": 15,
+      "stock": 8,
       "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6"
     },
     {
@@ -92,7 +99,7 @@
       "price": 900,
       "description": "Comfortable and spacious cage for small birds.",
       "rating": 4,
-      "stock": 10,
+      "stock": 9,
       "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -102,7 +109,7 @@
       "price": 1200,
       "description": "Includes tank, filter, and lights – great for beginners.",
       "rating": 4.6,
-      "stock": 8,
+      "stock": 7,
       "image": "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -112,8 +119,181 @@
       "price": 250,
       "description": "Durable and fun chew toys to keep your dog entertained.",
       "rating": 4.3,
-      "stock": 30,
+      "stock": 28,
       "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ],
+  "orders": [
+    {
+      "id": "478a",
+      "userId": "b2f8",
+      "items": [
+        {
+          "id": "1",
+          "name": "Pedigree Adult Dog Food",
+          "category": "Dog",
+          "price": 450,
+          "description": "Complete and balanced dog food for adult dogs.",
+          "rating": 4.5,
+          "stock": 20,
+          "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 450,
+      "status": "Placed",
+      "placedAt": "2025-07-04T06:16:51.440Z"
+    },
+    {
+      "id": "e44d",
+      "userId": "b2f8",
+      "items": [
+        {
+          "id": "5",
+          "name": "Dog Chew Toy (Set of 3)",
+          "category": "Dog",
+          "price": 250,
+          "description": "Durable and fun chew toys to keep your dog entertained.",
+          "rating": 4.3,
+          "stock": 30,
+          "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 4
+        },
+        {
+          "id": "4",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 8,
+          "image": "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 2200,
+      "status": "Placed",
+      "placedAt": "2025-07-04T06:32:20.611Z"
+    },
+    {
+      "id": "69c0",
+      "userId": "b2f8",
+      "items": [
+        {
+          "id": "5",
+          "name": "Dog Chew Toy (Set of 3)",
+          "category": "Dog",
+          "price": 250,
+          "description": "Durable and fun chew toys to keep your dog entertained.",
+          "rating": 4.3,
+          "stock": 30,
+          "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 250,
+      "status": "Placed",
+      "placedAt": "2025-07-04T06:32:51.092Z"
+    },
+    {
+      "id": "da15",
+      "userId": "b2f8",
+      "items": [
+        {
+          "id": "5",
+          "name": "Dog Chew Toy (Set of 3)",
+          "category": "Dog",
+          "price": 250,
+          "description": "Durable and fun chew toys to keep your dog entertained.",
+          "rating": 4.3,
+          "stock": 29,
+          "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 250,
+      "status": "Placed",
+      "placedAt": "2025-07-04T06:37:18.368Z"
+    },
+    {
+      "id": "15fe",
+      "userId": "8e78",
+      "items": [
+        {
+          "id": "2",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 15,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 5
+        }
+      ],
+      "total": 1900,
+      "status": "Placed",
+      "placedAt": "2025-07-04T08:24:28.411Z"
+    },
+    {
+      "id": "aed1",
+      "userId": "8e78",
+      "items": [
+        {
+          "id": "3",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 900,
+      "status": "Placed",
+      "placedAt": "2025-07-04T08:28:32.649Z"
+    },
+    {
+      "id": "531c",
+      "userId": "8e78",
+      "items": [
+        {
+          "id": "3",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1
+        }
+      ],
+      "total": 900,
+      "status": "Placed",
+      "placedAt": "2025-07-04T08:29:18.037Z"
+    },
+    {
+      "id": "bd41",
+      "userId": "d954",
+      "items": [
+        {
+          "id": "2",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 2
+        }
+      ],
+      "total": 760,
+      "status": "Placed",
+      "placedAt": "2025-07-04T08:33:02.862Z"
     }
   ]
 }

@@ -8,6 +8,8 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import ProductList from "../pages/products/ProductList";
 import ProductDetails from "../pages/products/ProductDetails";
 import Cart from "../pages/cart/Cart";
+import Checkout from "../pages/order/CheckOut";
+import Wishlist from "../pages/wishlist/Wishlist";
 
 const AllRoutes = () => {
   return (
@@ -32,9 +34,13 @@ const AllRoutes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route path="/products" element={<ProductList />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} /> 
+      <Route path="/wishlist" element={<Wishlist />} />
+
     </Routes>
   );
 };

@@ -6,9 +6,11 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../services/base";
+import { useAuth } from "../../context/AuthContext"; // ✅ import auth context
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // ✅ get login function from context
 
   const initialValues = {
     name: "",
@@ -31,9 +33,15 @@ const Signup = () => {
       const response = await axios.post(`${BASE_URL}/users`, values);
       const userId = response.data.id;
 
-      localStorage.setItem("userId", userId);
+      login(userId, values.role); // ✅ update session using AuthContext
       actions.resetForm();
-      navigate("/login");
+
+      // Redirect based on role
+      if (values.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/home");
+      }
     } catch (error) {
       console.error("Signup error:", error);
     }
