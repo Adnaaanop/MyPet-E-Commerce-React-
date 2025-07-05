@@ -8,9 +8,9 @@ const Wishlist = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const handleMoveToCart = (item) => {
-    addToCart(item);
-    removeFromWishlist(item.id);
+  const handleMoveToCart = async (item) => {
+    await addToCart(item);                  // ⬅️ Add to backend cart
+    await removeFromWishlist(item.id);      // ⬅️ Remove from backend wishlist
   };
 
   return (

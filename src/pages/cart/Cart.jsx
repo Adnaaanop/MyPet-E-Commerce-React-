@@ -19,42 +19,55 @@ const Cart = () => {
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="space-y-4">
-          {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between p-4 border rounded shadow"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded"
-                />
-                <div>
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    ₹{item.price} x
-                    <button
-                      onClick={() => decreaseQuantity(item.id)}
-                      className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    >
-                      −
-                    </button>
-                    {item.quantity}
-                    <button
-                      onClick={() => increaseQuantity(item.id)}
-                      className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    >
-                      +
-                    </button>
+          {cartItems.map((item) => {
+            const isPet = item.breed && item.age;
+
+            return (
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-4 border rounded shadow"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                  <div>
+                    <h3 className="font-semibold">{item.name}</h3>
+
+                    {isPet ? (
+                      <div className="text-sm text-gray-600 space-y-1">
+                        <p>Breed: {item.breed}</p>
+                        <p>Age: {item.age} {item.age === 1 ? "year" : "years"} old</p>
+                        <p>Price: ₹{item.price}</p>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        ₹{item.price} x
+                        <button
+                          onClick={() => decreaseQuantity(item.id)}
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                        >
+                          −
+                        </button>
+                        {item.quantity}
+                        <button
+                          onClick={() => increaseQuantity(item.id)}
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                        >
+                          +
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
+                <p className="font-bold text-green-600">
+                  ₹{item.price * item.quantity}
+                </p>
               </div>
-              <p className="font-bold text-green-600">
-                ₹{item.price * item.quantity}
-              </p>
-            </div>
-          ))}
+            );
+          })}
 
           <div className="text-right font-bold text-xl mt-4">
             Total: ₹{totalPrice}

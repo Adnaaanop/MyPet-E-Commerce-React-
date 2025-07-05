@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../services/base";
 
 // 1. Create context
 const WishlistContext = createContext();
@@ -10,34 +12,51 @@ export const useWishlist = () => useContext(WishlistContext);
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const userId = localStorage.getItem("userId");
-  const wishlistKey = `wishlist_${userId}`;
 
-  // Load wishlist from localStorage on mount
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem(wishlistKey)) || [];
-    setWishlist(stored);
-  }, [wishlistKey]);
-
-  // Save and update wishlist
-  const saveWishlist = (updated) => {
-    localStorage.setItem(wishlistKey, JSON.stringify(updated));
-    setWishlist(updated);
-  };
-
-  // Add item to wishlist
-  const addToWishlist = (product) => {
-    if (!wishlist.some((item) => item.id === product.id)) {
-      saveWishlist([...wishlist, product]);
+  // ✅ Fetch wishlist for logged-in user
+  const fetchWishlist = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/wishlist?userId=${userId}`);
+      setWishlist(res.data);
+    } catch (err) {
+      console.error("Failed to load wishlist", err);
     }
   };
 
-  // Remove item from wishlist
-  const removeFromWishlist = (id) => {
-    const updated = wishlist.filter((item) => item.id !== id);
-    saveWishlist(updated);
+  useEffect(() => {
+    if (userId) {
+      fetchWishlist();
+    }
+  }, [userId]);
+
+  // ➕ Add item
+  const addToWishlist = async (product) => {
+    const exists = wishlist.some((item) => item.id === product.id);
+    if (exists) return;
+
+    const newItem = { ...product, userId };
+    try {
+      await axios.post(`${BASE_URL}/wishlist`, newItem);
+      fetchWishlist(); // Refresh list
+    } catch (err) {
+      console.error("Error adding to wishlist", err);
+    }
   };
 
-  // Toggle item (add/remove)
+  // ❌ Remove item
+  const removeFromWishlist = async (id) => {
+    const item = wishlist.find((item) => item.id === id);
+    if (!item) return;
+
+    try {
+      await axios.delete(`${BASE_URL}/wishlist/${item.id}`);
+      fetchWishlist(); // Refresh list
+    } catch (err) {
+      console.error("Error removing from wishlist", err);
+    }
+  };
+
+  // 🔁 Toggle item
   const toggleWishlist = (product) => {
     const exists = wishlist.some((item) => item.id === product.id);
     if (exists) {
@@ -47,7 +66,7 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
-  // Check if item exists
+  // 🔍 Check
   const isInWishlist = (id) => wishlist.some((item) => item.id === id);
 
   return (

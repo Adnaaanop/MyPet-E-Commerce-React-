@@ -28,6 +28,11 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center gap-6">
+        {/* 🐾 Pets link - newly added */}
+        <Link to="/pets" className="text-gray-700 hover:text-blue-500">
+          Pets
+        </Link>
+
         <Link to="/products" className="text-gray-700 hover:text-blue-500">
           Products
         </Link>

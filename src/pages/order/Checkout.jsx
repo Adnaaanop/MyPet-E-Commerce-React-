@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +7,12 @@ import { BASE_URL } from "../../services/base";
 const Checkout = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+
+  const [address, setAddress] = useState({
+    street: "",
+    city: "",
+    pincode: ""
+  });
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -20,17 +26,25 @@ const Checkout = () => {
       return;
     }
 
+    // Address validation
+    if (!address.street || !address.city || !address.pincode) {
+      alert("Please fill all address fields.");
+      return;
+    }
+
     const newOrder = {
       userId,
       items: cartItems,
       total: totalPrice,
+      address,
       status: "Placed",
       placedAt: new Date().toISOString(),
     };
 
     try {
-      // Step 1: Save order
-      await axios.post(`${BASE_URL}/orders`, newOrder);
+      // Step 1: Save order and get response with ID
+      const res = await axios.post(`${BASE_URL}/orders`, newOrder);
+      const savedOrder = res.data; // contains ID
 
       // Step 2: Update stock for each product
       for (const item of cartItems) {
@@ -43,8 +57,10 @@ const Checkout = () => {
 
       // Step 3: Clear cart
       clearCart();
-      alert("✅ Order placed successfully!");
-      navigate("/products");
+
+      // Step 4: Navigate to order summary with real order object
+      navigate("/order-summary", { state: { order: savedOrder } });
+
     } catch (error) {
       console.error("Error placing order:", error);
       alert("❌ Failed to place order. Try again.");
@@ -59,16 +75,24 @@ const Checkout = () => {
         <p className="text-gray-600">Your cart is empty.</p>
       ) : (
         <div className="space-y-4">
+          {/* Cart Items */}
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between items-center border p-4 rounded shadow"
+              className="flex items-center justify-between border p-4 rounded shadow"
             >
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">
-                  ₹{item.price} × {item.quantity}
-                </p>
+              <div className="flex items-center gap-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-16 h-16 object-cover rounded"
+                />
+                <div>
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="text-sm text-gray-500">
+                    ₹{item.price} × {item.quantity}
+                  </p>
+                </div>
               </div>
               <p className="font-bold text-green-600">
                 ₹{item.price * item.quantity}
@@ -76,10 +100,41 @@ const Checkout = () => {
             </div>
           ))}
 
+          {/* Total Price */}
           <div className="text-right font-bold text-xl mt-4">
             Total: ₹{totalPrice}
           </div>
 
+          {/* Address Form */}
+          <div className="mt-6 space-y-3">
+            <h3 className="text-lg font-semibold">Shipping Address</h3>
+            <input
+              type="text"
+              name="street"
+              placeholder="Street"
+              value={address.street}
+              onChange={(e) => setAddress({ ...address, street: e.target.value })}
+              className="w-full p-2 border rounded"
+            />
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              value={address.city}
+              onChange={(e) => setAddress({ ...address, city: e.target.value })}
+              className="w-full p-2 border rounded"
+            />
+            <input
+              type="text"
+              name="pincode"
+              placeholder="Pincode"
+              value={address.pincode}
+              onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          {/* Place Order Button */}
           <div className="text-right mt-6">
             <button
               onClick={handlePlaceOrder}

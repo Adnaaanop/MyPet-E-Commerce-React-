@@ -10,6 +10,10 @@ import ProductDetails from "../pages/products/ProductDetails";
 import Cart from "../pages/cart/Cart";
 import Checkout from "../pages/order/CheckOut";
 import Wishlist from "../pages/wishlist/Wishlist";
+import OrderSummary from "../pages/order/OrderSummary";
+import MyOrders from "../pages/order/MyOrders";
+import PetList from "../pages/pets/PetList";
+import PetDetails from "../pages/pets/PetDetails";
 
 const AllRoutes = () => {
   return (
@@ -40,6 +44,10 @@ const AllRoutes = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} /> 
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/order-summary" element={<OrderSummary />} />
+      <Route path="/my-orders" element={<MyOrders />} />
+      <Route path="/pets" element={<PetList />} />
+      <Route path="/pets/:id" element={<PetDetails />} />
 
     </Routes>
   );
