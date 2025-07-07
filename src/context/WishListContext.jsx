@@ -2,18 +2,18 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../services/base";
 
-// 1. Create context
+
 const WishlistContext = createContext();
 
-// 2. Custom hook
+
 export const useWishlist = () => useContext(WishlistContext);
 
-// 3. Provider
+
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const userId = localStorage.getItem("userId");
 
-  // ✅ Fetch wishlist for logged-in user
+  //  Fetch wishlist
   const fetchWishlist = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/wishlist?userId=${userId}`);
@@ -29,7 +29,7 @@ export const WishlistProvider = ({ children }) => {
     }
   }, [userId]);
 
-  // ➕ Add item
+  //  Add 
   const addToWishlist = async (product) => {
     const exists = wishlist.some((item) => item.id === product.id);
     if (exists) return;
@@ -37,26 +37,26 @@ export const WishlistProvider = ({ children }) => {
     const newItem = { ...product, userId };
     try {
       await axios.post(`${BASE_URL}/wishlist`, newItem);
-      fetchWishlist(); // Refresh list
+      fetchWishlist(); 
     } catch (err) {
       console.error("Error adding to wishlist", err);
     }
   };
 
-  // ❌ Remove item
+  //  Remove 
   const removeFromWishlist = async (id) => {
     const item = wishlist.find((item) => item.id === id);
     if (!item) return;
 
     try {
       await axios.delete(`${BASE_URL}/wishlist/${item.id}`);
-      fetchWishlist(); // Refresh list
+      fetchWishlist(); 
     } catch (err) {
       console.error("Error removing from wishlist", err);
     }
   };
 
-  // 🔁 Toggle item
+  //  Toggle 
   const toggleWishlist = (product) => {
     const exists = wishlist.some((item) => item.id === product.id);
     if (exists) {
@@ -66,7 +66,7 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
-  // 🔍 Check
+  //  Checking
   const isInWishlist = (id) => wishlist.some((item) => item.id === id);
 
   return (

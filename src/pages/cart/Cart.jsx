@@ -59,7 +59,7 @@ const Cart = () => {
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 text-sm text-gray-600">
-                        ₹{item.price} x
+                        ₹{item.price} x 
                         <button
                           onClick={() => decreaseQuantity(item.id)}
                           className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
@@ -106,7 +106,7 @@ const Cart = () => {
         </div>
       )}
 
-      {/* Clear cart confirmation modal */}
+      {/* popup  */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">

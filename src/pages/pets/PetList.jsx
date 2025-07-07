@@ -11,7 +11,7 @@ const PetList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("");
 
-  const categories = ["All", "Dog", "Cat", "Bird", "Fish", "Rabbit", "Turtle"];
+  const categories = ["All", "Dog", "Cat", "Bird", "Fish"];
 
   useEffect(() => {
     axios
@@ -55,7 +55,7 @@ const PetList = () => {
 
   return (
     <div className="flex flex-col md:flex-row p-6">
-      {/* Sidebar (Desktop only) */}
+      {/* Sidebar  */}
       <div className="hidden md:block w-48 mr-6">
         <div className="sticky top-20 space-y-2">
           <h3 className="text-lg font-semibold">Filter by Category</h3>
@@ -75,11 +75,9 @@ const PetList = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1">
         <h2 className="text-3xl font-bold mb-6 text-center">🐾 Browse Pets</h2>
 
-        {/* Mobile Category Filter (Optional dropdown or custom if needed) */}
         <div className="md:hidden mb-4 space-y-2">
           <select
             value={selectedCategory}
@@ -94,7 +92,7 @@ const PetList = () => {
           </select>
         </div>
 
-        {/* Top Controls */}
+        {/* search */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <input
             type="text"
@@ -124,7 +122,7 @@ const PetList = () => {
           </div>
         </div>
 
-        {/* Pet Grid */}
+        {/* Pets */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredPets.length > 0 ? (
             filteredPets.map((pet) => (

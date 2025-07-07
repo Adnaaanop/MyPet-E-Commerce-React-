@@ -1,4 +1,3 @@
-// src/pages/products/ProductList.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
@@ -38,7 +37,7 @@ const ProductList = () => {
 
   return (
     <div className="flex flex-col md:flex-row p-4 gap-4">
-      {/* 📱 Mobile Category Dropdown */}
+      {/*  Mobile  */}
       <div className="md:hidden mb-4">
         <select
           className="w-full border px-3 py-2 rounded"
@@ -53,7 +52,7 @@ const ProductList = () => {
         </select>
       </div>
 
-      {/* 💻 Sidebar Category Filter */}
+      {/*  Sidebar */}
       <div className="hidden md:block w-48">
         <div className="sticky top-20 space-y-2">
           <h3 className="text-lg font-semibold">Filter by Category</h3>
@@ -73,11 +72,11 @@ const ProductList = () => {
         </div>
       </div>
 
-      {/* 🔍 Search, Sort, Clear, and Products */}
+
       <div className="flex-1">
-        {/* Search + Sort + Clear (aligned for desktop) */}
+
         <div className="mb-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* 🔍 Search */}
+          {/*  Search */}
           <input
             type="text"
             placeholder="Search for a product..."
@@ -86,7 +85,7 @@ const ProductList = () => {
             className="w-full md:w-1/2 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
-          {/* 🧹 Clear Filters (left of sort on desktop) */}
+          {/*  Clear filter buton */}
           <div className="flex w-full md:w-auto justify-between md:justify-start gap-2">
             <button
               onClick={() => {
@@ -99,7 +98,7 @@ const ProductList = () => {
               Clear All Filters
             </button>
 
-            {/* 🔽 Sort Dropdown */}
+            {/* Dropdown */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -114,7 +113,7 @@ const ProductList = () => {
           </div>
         </div>
 
-        {/* 📦 Product Grid */}
+        {/*  Product  */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (

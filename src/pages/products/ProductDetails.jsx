@@ -3,14 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
 import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishListContext"; // ✅ Import wishlist
+import { useWishlist } from "../../context/WishListContext"; 
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const { addToCart } = useCart();
-  const { addToWishlist } = useWishlist(); // ✅ Access wishlist function
+  const { addToWishlist } = useWishlist(); 
 
   useEffect(() => {
     axios
@@ -80,7 +80,7 @@ const ProductDetails = () => {
               onClick={handleAddToWishlist}
               className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
             >
-              ❤️ Add to Wishlist
+               Add to Wishlist
             </button>
           </div>
         </div>

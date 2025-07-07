@@ -1,18 +1,17 @@
-// src/pages/pets/PetDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
-// import { useWishList } from "../../context/WishListContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { v4 as uuid } from "uuid";
 import { useWishlist } from "../../context/WishListContext";
+import { useCart } from "../../context/CartContext";
 
 const PetDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [pet, setPet] = useState(null);
   const { wishlist, toggleWishlist } = useWishlist();
+  const { addToCart } = useCart();
 
   const userId = localStorage.getItem("userId");
 
@@ -25,41 +24,28 @@ const PetDetails = () => {
 
   const isWishlisted = wishlist.some((item) => item.id === pet?.id);
 
-  const handleBuyNow = () => {
+  const handleAdoptNow = async () => {
     if (!userId) {
-      alert("Please login to place an order.");
+      alert("Please login to adopt a pet.");
       navigate("/login");
       return;
     }
 
-    const orderData = {
-      id: uuid().slice(0, 4),
-      userId,
-      items: [
-        {
-          ...pet,
-          quantity: 1,
-          userId
-        }
-      ],
-      total: pet.price,
-      status: "Placed",
-      placedAt: new Date().toISOString()
-    };
-
-    axios.post(`${BASE_URL}/orders`, orderData)
-      .then(() => {
-        alert("Order placed successfully!");
-        navigate("/orders");
-      })
-      .catch((err) => {
-        console.error("Error placing order", err);
-        alert("Something went wrong. Try again.");
-      });
+    try {
+      await addToCart({ ...pet, quantity: 1 });
+      navigate("/checkout");
+    } catch (err) {
+      console.error("Error adding pet to cart:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   if (!pet) {
-    return <div className="text-center mt-10 text-gray-500">Loading pet details...</div>;
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        Loading pet details...
+      </div>
+    );
   }
 
   return (
@@ -92,10 +78,12 @@ const PetDetails = () => {
 
           <p className="text-gray-600 mb-1">Breed: {pet.breed}</p>
           <p className="text-gray-600 mb-1">Age: {pet.age} year(s)</p>
-          <p className="text-2xl text-green-600 font-semibold mt-4 mb-6">₹{pet.price}</p>
+          <p className="text-2xl text-green-600 font-semibold mt-4 mb-6">
+            ₹{pet.price}
+          </p>
 
           <button
-            onClick={handleBuyNow}
+            onClick={handleAdoptNow}
             className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
           >
             Adopt Now

@@ -1,4 +1,3 @@
-// src/components/products/ProductCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../../context/WishListContext";
@@ -13,7 +12,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="bg-white shadow-md rounded p-4 relative hover:shadow-lg transition-all">
-      {/* ❤️ Wishlist toggle */}
+      {/*  Wishlist */}
       {/* <button
         onClick={() => toggleWishlist(product)}
         className="absolute top-3 right-3"
@@ -34,7 +33,7 @@ const ProductCard = ({ product }) => {
 
       <h3 className="mt-2 font-bold text-lg">{product.name}</h3>
 
-      {/* 🐾 Pet-specific info */}
+      {/*  pet only data  */}
       {isPet && (
         <>
           <p className="text-sm text-gray-500">{product.breed}</p>
@@ -44,7 +43,7 @@ const ProductCard = ({ product }) => {
 
       <p className="text-green-600 font-semibold mb-1">₹{product.price}</p>
 
-      {/* ⭐ Product rating */}
+      {/* rating of products only */}
       {!isPet && (
         <p className="text-sm text-gray-500 mb-2">
           Rating: {product.rating} ⭐

@@ -1,19 +1,16 @@
+// src/context/CartContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../services/base";
 
-// 1. Create the context
 const CartContext = createContext();
-
-// 2. Custom hook
 export const useCart = () => useContext(CartContext);
 
-// 3. Provider component
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");
 
-  // ✅ Cleanup old cart keys (for safety during transition)
+  // Cleanup old cart keys from localStorage
   useEffect(() => {
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith("cart_")) {
@@ -22,7 +19,7 @@ export const CartProvider = ({ children }) => {
     });
   }, []);
 
-  // ✅ Fetch user's cart on mount
+  // Fetch user cart
   useEffect(() => {
     if (userId) {
       fetchCart();
@@ -38,10 +35,14 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Add to cart
-  const addToCart = async (product) => {
+  // Add to cart (with type check)
+  const addToCart = async (item) => {
     try {
-      const existingItem = cartItems.find((item) => item.productId === product.id);
+      const type = item.breed && item.age ? "pet" : "product";
+
+      const existingItem = cartItems.find(
+        (ci) => ci.productId === item.id && ci.type === type
+      );
 
       if (existingItem) {
         const updatedItem = {
@@ -52,10 +53,11 @@ export const CartProvider = ({ children }) => {
         await axios.put(`${BASE_URL}/cart/${existingItem.id}`, updatedItem);
       } else {
         const newItem = {
-          ...product,
-          productId: product.id,
+          ...item,
+          productId: item.id,
           quantity: 1,
           userId,
+          type,
         };
 
         await axios.post(`${BASE_URL}/cart`, newItem);
@@ -67,7 +69,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Increase quantity
   const increaseQuantity = async (id) => {
     const item = cartItems.find((item) => item.id === id);
     if (!item) return;
@@ -83,7 +84,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Decrease quantity
   const decreaseQuantity = async (id) => {
     const item = cartItems.find((item) => item.id === id);
     if (!item) return;
@@ -103,7 +103,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Remove from cart
   const removeFromCart = async (id) => {
     try {
       await axios.delete(`${BASE_URL}/cart/${id}`);
@@ -113,7 +112,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Clear cart
   const clearCart = async () => {
     try {
       const deleteRequests = cartItems.map((item) =>

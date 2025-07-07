@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow px-6 py-4 flex justify-between items-center sticky top-0 z-50">
       <Link to="/" className="text-2xl font-bold text-blue-600">
-        PetShop
+        My Pet
       </Link>
 
       <div className="flex items-center gap-6">
@@ -41,7 +41,7 @@ const Navbar = () => {
         </Link>
 
         <Link to="/wishlist" className={`relative ${isActive("/wishlist")} hover:text-pink-500`}>
-          ❤️ Wishlist
+          ❤️
           {wishlist.length > 0 && (
             <span className="absolute -top-2 -right-4 bg-pink-500 text-white text-xs px-2 rounded-full">
               {wishlist.length}
@@ -50,7 +50,7 @@ const Navbar = () => {
         </Link>
 
         <Link to="/cart" className={`relative ${isActive("/cart")} hover:text-blue-500`}>
-          🛒 Cart
+          🛒 
           {cartItems.length > 0 && (
             <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs px-2 rounded-full">
               {cartItems.length}
@@ -60,9 +60,9 @@ const Navbar = () => {
 
         {isLoggedIn ? (
           <>
-            <Link to="/orders" className={`${isActive("/orders")} hover:text-green-600`}>
+            {/* <Link to="/orders" className={`${isActive("/orders")} hover:text-green-600`}>
               📦 Orders
-            </Link>
+            </Link> */}
 
             <button
               onClick={handleLogout}
@@ -89,7 +89,7 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Logout confirmation modal */}
+      {/* Logout suring promptt */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">

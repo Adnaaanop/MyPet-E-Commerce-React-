@@ -101,7 +101,7 @@
       "description": "Complete and balanced dog food for adult dogs.",
       "rating": 4.5,
       "stock": -1,
-      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       "id": "2",
@@ -110,7 +110,7 @@
       "price": 380,
       "description": "Tasty and nutritious cat food for healthy fur.",
       "rating": 4.2,
-      "stock": -9,
+      "stock": null,
       "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6"
     },
     {
@@ -121,7 +121,7 @@
       "description": "Comfortable and spacious cage for small birds.",
       "rating": 4,
       "stock": null,
-      "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       "id": "4",
@@ -131,7 +131,7 @@
       "description": "Includes tank, filter, and lights – great for beginners.",
       "rating": 4.6,
       "stock": 6,
-      "image": "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       "id": "5",
@@ -140,8 +140,8 @@
       "price": 250,
       "description": "Durable and fun chew toys to keep your dog entertained.",
       "rating": 4.3,
-      "stock": -1,
-      "image": "https://images.unsplash.com/photo-1529040181623-e04ebc611e25?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "stock": -2,
+      "image": "https://images.unsplash.com/photo-1587559070757-f72a388edbba?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ],
   "orders": [
@@ -872,33 +872,8 @@
       "placedAt": "2025-07-07T11:11:29.211Z"
     }
   ],
-  "cart": [
-    {
-      "id": "1",
-      "name": "Pedigree Adult Dog Food",
-      "category": "Dog",
-      "price": 450,
-      "description": "Complete and balanced dog food for adult dogs.",
-      "rating": 4.5,
-      "stock": -1,
-      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "productId": "1",
-      "quantity": 2,
-      "userId": "ab9d"
-    }
-  ],
+  "cart": [],
   "wishlist": [
-    {
-      "id": "3",
-      "name": "Bird Cage – Medium",
-      "category": "Bird",
-      "price": 900,
-      "description": "Comfortable and spacious cage for small birds.",
-      "rating": 4,
-      "stock": null,
-      "image": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "userId": "0be8"
-    },
     {
       "id": "2",
       "name": "Whiskas Dry Cat Food",
@@ -909,24 +884,15 @@
       "stock": -9,
       "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
       "userId": "ab9d"
-    }
-  ],
-  "pets": [
+    },
     {
       "id": "1",
       "name": "Buddy",
       "breed": "Golden Retriever",
       "age": 2,
       "price": 15000,
-      "image": "https://images.unsplash.com/photo-1558788353-f76d92427f16"
-    },
-    {
-      "id": "2",
-      "name": "Whiskers",
-      "breed": "Persian Cat",
-      "age": 1,
-      "price": 12000,
-      "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "image": "https://images.unsplash.com/photo-1558788353-f76d92427f16",
+      "userId": "ab9d"
     },
     {
       "id": "3",
@@ -934,23 +900,56 @@
       "breed": "Macaw Parrot",
       "age": 3,
       "price": 8000,
-      "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=850&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "id": "4",
-      "name": "Bubbles",
-      "breed": "Goldfish",
-      "age": 1,
-      "price": 300,
-      "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "id": "5",
-      "name": "Max",
-      "breed": "Labrador",
-      "age": 2,
-      "price": 14000,
-      "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006"
+      "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=850&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userId": "ab9d"
     }
-  ]
+  ],
+  "pets": [
+  {
+    "id": "1",
+    "name": "Buddy",
+    "breed": "Golden Retriever",
+    "age": 2,
+    "price": 15000,
+    "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "category": "Dog"
+  },
+  {
+    "id": "2",
+    "name": "Whiskers",
+    "breed": "Persian Cat",
+    "age": 1,
+    "price": 12000,
+    "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "category": "Cat"
+  },
+  {
+    "id": "3",
+    "name": "Polly",
+    "breed": "Macaw Parrot",
+    "age": 3,
+    "price": 8000,
+    "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "category": "Bird"
+  },
+  {
+    "id": "4",
+    "name": "Bubbles",
+    "breed": "Goldfish",
+    "age": 1,
+    "price": 300,
+    "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "category": "Fish"
+  },
+  {
+    "id": "5",
+    "name": "Max",
+    "breed": "Labrador",
+    "age": 2,
+    "price": 14000,
+    "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "category": "Dog"
+  }
+]
+
 }
