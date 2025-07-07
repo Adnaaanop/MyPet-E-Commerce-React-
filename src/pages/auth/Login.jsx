@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { BASE_URL } from "../../services/base";
-import { useAuth } from "../../context/AuthContext"; // ✅ import auth context
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ get login function from context
+  const { login } = useAuth();
 
   const initialValues = {
     email: "",
@@ -19,7 +19,10 @@ function Login() {
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .max(20, "Password must not exceed 20 characters"),
   });
 
   const handleSubmit = async (values, actions) => {
@@ -32,9 +35,8 @@ function Login() {
       );
 
       if (user) {
-        login(user.id, user.role); // ✅ use context instead of localStorage
+        login(user.id, user.role);
 
-        // Redirect based on role
         if (user.role === "admin") {
           navigate("/admin/dashboard");
         } else {

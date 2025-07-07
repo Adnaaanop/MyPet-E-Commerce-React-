@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishListContext";
@@ -9,6 +9,7 @@ const Navbar = () => {
   const { wishlist } = useWishlist();
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleLogout = () => {
@@ -21,6 +22,9 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const isActive = (path) =>
+    location.pathname === path ? "text-blue-600 font-semibold" : "text-gray-700";
+
   return (
     <nav className="bg-white shadow px-6 py-4 flex justify-between items-center sticky top-0 z-50">
       <Link to="/" className="text-2xl font-bold text-blue-600">
@@ -28,16 +32,15 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center gap-6">
-        {/* 🐾 Pets link - newly added */}
-        <Link to="/pets" className="text-gray-700 hover:text-blue-500">
+        <Link to="/pets" className={`${isActive("/pets")} hover:text-blue-500`}>
           Pets
         </Link>
 
-        <Link to="/products" className="text-gray-700 hover:text-blue-500">
+        <Link to="/products" className={`${isActive("/products")} hover:text-blue-500`}>
           Products
         </Link>
 
-        <Link to="/wishlist" className="relative text-gray-700 hover:text-pink-500">
+        <Link to="/wishlist" className={`relative ${isActive("/wishlist")} hover:text-pink-500`}>
           ❤️ Wishlist
           {wishlist.length > 0 && (
             <span className="absolute -top-2 -right-4 bg-pink-500 text-white text-xs px-2 rounded-full">
@@ -46,7 +49,7 @@ const Navbar = () => {
           )}
         </Link>
 
-        <Link to="/cart" className="relative text-gray-700 hover:text-blue-500">
+        <Link to="/cart" className={`relative ${isActive("/cart")} hover:text-blue-500`}>
           🛒 Cart
           {cartItems.length > 0 && (
             <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs px-2 rounded-full">
@@ -55,13 +58,34 @@ const Navbar = () => {
           )}
         </Link>
 
-        {isLoggedIn && (
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
-          >
-            Logout
-          </button>
+        {isLoggedIn ? (
+          <>
+            <Link to="/orders" className={`${isActive("/orders")} hover:text-green-600`}>
+              📦 Orders
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400 text-sm"
+            >
+              Register
+            </Link>
+          </>
         )}
       </div>
 

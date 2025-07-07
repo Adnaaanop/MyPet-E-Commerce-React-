@@ -23,7 +23,8 @@ const Signup = () => {
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
-      .min(6, "Minimum 6 characters")
+      .min(6, "Password must be at least 8 characters")
+      .max(20, "Password must not exceed 20 characters")
       .required("Password is required"),
     role: Yup.string().oneOf(["user", "admin"]).required("Role is required"),
   });
@@ -33,14 +34,16 @@ const Signup = () => {
       const response = await axios.post(`${BASE_URL}/users`, values);
       const userId = response.data.id;
 
-      login(userId, values.role); // ✅ update session using AuthContext
+      // ✅ update session using AuthContext
+
+      login(userId, values.role); 
       actions.resetForm();
 
-      // Redirect based on role
+
       if (values.role === "admin") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/user/home");
+        navigate("/login");
       }
     } catch (error) {
       console.error("Signup error:", error);

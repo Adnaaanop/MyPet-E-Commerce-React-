@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, increaseQuantity, decreaseQuantity } = useCart();
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    clearCart,
+  } = useCart();
   const navigate = useNavigate();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const handleClearCart = () => {
+    setShowConfirm(true);
+  };
+
+  const confirmClear = () => {
+    clearCart();
+    setShowConfirm(false);
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -73,13 +88,45 @@ const Cart = () => {
             Total: ₹{totalPrice}
           </div>
 
-          <div className="text-right mt-4">
+          <div className="text-right mt-4 space-x-2">
+            <button
+              onClick={handleClearCart}
+              className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600"
+            >
+              🗑️ Clear Cart
+            </button>
+
             <button
               onClick={() => navigate("/checkout")}
               className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
             >
               Proceed to Checkout
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Clear cart confirmation modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <p className="mb-4 text-gray-800 font-semibold">
+              Are you sure you want to clear your cart?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={confirmClear}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Yes, Clear
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

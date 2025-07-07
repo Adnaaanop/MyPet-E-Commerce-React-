@@ -2,24 +2,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../../context/WishListContext";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const ProductCard = ({ product }) => {
-  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { wishlist, toggleWishlist } = useWishlist();
 
   const isPet =
     product.hasOwnProperty("breed") && product.hasOwnProperty("age");
-  const isInWishlist = wishlist.some((item) => item.id === product.id);
-
-  const toggleWishlist = () => {
-    if (isInWishlist) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-    }
-  };
+  const isWishlisted = wishlist.some((item) => item.id === product.id);
 
   return (
     <div className="bg-white shadow-md rounded p-4 relative hover:shadow-lg transition-all">
+      {/* ❤️ Wishlist toggle */}
+      {/* <button
+        onClick={() => toggleWishlist(product)}
+        className="absolute top-3 right-3"
+        title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+      >
+        {isWishlisted ? (
+          <FaHeart className="text-red-500 text-xl" />
+        ) : (
+          <FaRegHeart className="text-gray-400 text-xl" />
+        )}
+      </button> */}
+
       <img
         src={product.image}
         alt={product.name}
@@ -45,24 +51,15 @@ const ProductCard = ({ product }) => {
         </p>
       )}
 
-      {/* 🔗 View Details */}
       <Link
         to={`/${isPet ? "pets" : "products"}/${product.id}`}
         className="block text-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-2"
       >
         View Details
       </Link>
-
-      {/* ❤️ Wishlist toggle (for all) */}
-      <button
-        onClick={toggleWishlist}
-        className="absolute top-2 right-2 text-red-500 text-xl"
-        title={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
-      >
-        {isInWishlist ? "❤️" : "🤍"}
-      </button>
     </div>
   );
 };
 
 export default ProductCard;
+ 

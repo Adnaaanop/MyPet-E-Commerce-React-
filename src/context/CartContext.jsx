@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "../services/base"; // Make sure BASE_URL = "http://localhost:3001"
+import { BASE_URL } from "../services/base";
 
 // 1. Create the context
 const CartContext = createContext();
@@ -12,6 +12,15 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");
+
+  // ✅ Cleanup old cart keys (for safety during transition)
+  useEffect(() => {
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("cart_")) {
+        localStorage.removeItem(key);
+      }
+    });
+  }, []);
 
   // ✅ Fetch user's cart on mount
   useEffect(() => {
@@ -32,7 +41,7 @@ export const CartProvider = ({ children }) => {
   // ✅ Add to cart
   const addToCart = async (product) => {
     try {
-      const existingItem = cartItems.find((item) => item.id === product.id);
+      const existingItem = cartItems.find((item) => item.productId === product.id);
 
       if (existingItem) {
         const updatedItem = {
@@ -42,7 +51,13 @@ export const CartProvider = ({ children }) => {
 
         await axios.put(`${BASE_URL}/cart/${existingItem.id}`, updatedItem);
       } else {
-        const newItem = { ...product, quantity: 1, userId };
+        const newItem = {
+          ...product,
+          productId: product.id,
+          quantity: 1,
+          userId,
+        };
+
         await axios.post(`${BASE_URL}/cart`, newItem);
       }
 
