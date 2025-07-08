@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 const Cart = () => {
   const {
@@ -8,9 +9,11 @@ const Cart = () => {
     increaseQuantity,
     decreaseQuantity,
     clearCart,
+    removeFromCart,
   } = useCart();
   const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState(null);
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -19,10 +22,20 @@ const Cart = () => {
 
   const handleClearCart = () => {
     setShowConfirm(true);
+    setItemToRemove(null); // this means it's for "clear all"
   };
 
-  const confirmClear = () => {
-    clearCart();
+  const handleRemoveItem = (itemId) => {
+    setItemToRemove(itemId);
+    setShowConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (itemToRemove) {
+      removeFromCart(itemToRemove);
+    } else {
+      clearCart();
+    }
     setShowConfirm(false);
   };
 
@@ -54,12 +67,14 @@ const Cart = () => {
                     {isPet ? (
                       <div className="text-sm text-gray-600 space-y-1">
                         <p>Breed: {item.breed}</p>
-                        <p>Age: {item.age} {item.age === 1 ? "year" : "years"} old</p>
+                        <p>
+                          Age: {item.age} {item.age === 1 ? "year" : "years"} old
+                        </p>
                         <p>Price: ₹{item.price}</p>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 text-sm text-gray-600">
-                        ₹{item.price} x 
+                        ₹{item.price} x
                         <button
                           onClick={() => decreaseQuantity(item.id)}
                           className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
@@ -77,9 +92,19 @@ const Cart = () => {
                     )}
                   </div>
                 </div>
-                <p className="font-bold text-green-600">
-                  ₹{item.price * item.quantity}
-                </p>
+
+                <div className="flex items-center gap-4">
+                  <p className="font-bold text-green-600">
+                    ₹{item.price * item.quantity}
+                  </p>
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className="text-red-600 hover:text-red-800"
+                    title="Remove item"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -106,19 +131,21 @@ const Cart = () => {
         </div>
       )}
 
-      {/* popup  */}
+      {/* Confirmation Modal */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
             <p className="mb-4 text-gray-800 font-semibold">
-              Are you sure you want to clear your cart?
+              {itemToRemove
+                ? "Are you sure you want to remove this item from cart?"
+                : "Are you sure you want to clear your cart?"}
             </p>
             <div className="flex justify-center gap-4">
               <button
-                onClick={confirmClear}
+                onClick={confirmDelete}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
               >
-                Yes, Clear
+                Yes, Confirm
               </button>
               <button
                 onClick={() => setShowConfirm(false)}

@@ -6,11 +6,11 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../services/base";
-import { useAuth } from "../../context/AuthContext"; // ✅ import auth context
+import { useAuth } from "../../context/AuthContext"; 
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ get login function from context
+  const { login } = useAuth(); 
 
   const initialValues = {
     name: "",
@@ -34,7 +34,7 @@ const Signup = () => {
       const response = await axios.post(`${BASE_URL}/users`, values);
       const userId = response.data.id;
 
-      // ✅ update session using AuthContext
+  
 
       login(userId, values.role); 
       actions.resetForm();

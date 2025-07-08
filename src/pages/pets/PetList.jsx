@@ -76,7 +76,7 @@ const PetList = () => {
       </div>
 
       <div className="flex-1">
-        <h2 className="text-3xl font-bold mb-6 text-center">🐾 Browse Pets</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center"> Browse Lovely Pets</h2>
 
         <div className="md:hidden mb-4 space-y-2">
           <select

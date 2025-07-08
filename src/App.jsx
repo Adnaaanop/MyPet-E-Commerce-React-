@@ -17,7 +17,7 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <WishlistProvider>
-            <Navbar />
+            {/* Remove this: <Navbar /> */}
             <AllRoutes />
           </WishlistProvider>
         </CartProvider>
@@ -25,5 +25,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;

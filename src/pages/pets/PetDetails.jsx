@@ -10,7 +10,7 @@ const PetDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [pet, setPet] = useState(null);
-  const { wishlist, toggleWishlist } = useWishlist();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const { addToCart } = useCart();
 
   const userId = localStorage.getItem("userId");
@@ -22,22 +22,28 @@ const PetDetails = () => {
       .catch((err) => console.error("Error fetching pet details", err));
   }, [id]);
 
-  const isWishlisted = wishlist.some((item) => item.id === pet?.id);
-
   const handleAdoptNow = async () => {
     if (!userId) {
       alert("Please login to adopt a pet.");
-      navigate("/login");
       return;
     }
 
     try {
       await addToCart({ ...pet, quantity: 1 });
-      navigate("/checkout");
+      navigate("/cart");
     } catch (err) {
       console.error("Error adding pet to cart:", err);
       alert("Something went wrong. Please try again.");
     }
+  };
+
+  const handleToggleWishlist = () => {
+    if (!userId) {
+      alert("Please login to add items to your wishlist.");
+      return;
+    }
+
+    toggleWishlist(pet);
   };
 
   if (!pet) {
@@ -67,8 +73,8 @@ const PetDetails = () => {
         <div className="flex-1">
           <div className="flex justify-between items-start mb-2">
             <h2 className="text-3xl font-bold">{pet.name}</h2>
-            <button onClick={() => toggleWishlist(pet)}>
-              {isWishlisted ? (
+            <button onClick={handleToggleWishlist}>
+              {isInWishlist(pet?.id) ? (
                 <FaHeart className="text-red-500 text-2xl" />
               ) : (
                 <FaRegHeart className="text-gray-500 text-2xl" />

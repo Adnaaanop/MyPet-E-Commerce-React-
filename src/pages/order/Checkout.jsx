@@ -11,7 +11,7 @@ const Checkout = () => {
   const [address, setAddress] = useState({
     street: "",
     city: "",
-    pincode: ""
+    pincode: "",
   });
 
   const totalPrice = cartItems.reduce(
@@ -26,7 +26,6 @@ const Checkout = () => {
       return;
     }
 
-    // Address validation
     if (!address.street || !address.city || !address.pincode) {
       alert("Please fill all address fields.");
       return;
@@ -42,25 +41,26 @@ const Checkout = () => {
     };
 
     try {
-      // Step 1: Save order and get response with ID
+      // Save order
       const res = await axios.post(`${BASE_URL}/orders`, newOrder);
-      const savedOrder = res.data; // contains ID
+      const savedOrder = res.data;
 
-      // Step 2: Update stock for each product
+      // Update stock for each item (IMPORTANT: use productId instead of id)
       for (const item of cartItems) {
         const updatedStock = item.stock - item.quantity;
 
-        await axios.patch(`${BASE_URL}/products/${item.id}`, {
-          stock: updatedStock,
-        });
+        if (item.productId) {
+          await axios.patch(`${BASE_URL}/products/${item.productId}`, {
+            stock: updatedStock,
+          });
+        } else {
+          console.warn("Missing productId for cart item:", item);
+        }
       }
 
-      // Step 3: Clear cart
+      // Clear cart and redirect
       clearCart();
-
-      // Step 4: Navigate to order summary with real order object
       navigate("/order-summary", { state: { order: savedOrder } });
-
     } catch (error) {
       console.error("Error placing order:", error);
       alert("❌ Failed to place order. Try again.");
@@ -75,7 +75,6 @@ const Checkout = () => {
         <p className="text-gray-600">Your cart is empty.</p>
       ) : (
         <div className="space-y-4">
-          {/* Cart Items */}
           {cartItems.map((item) => (
             <div
               key={item.id}
@@ -100,12 +99,10 @@ const Checkout = () => {
             </div>
           ))}
 
-          {/* Total Price */}
           <div className="text-right font-bold text-xl mt-4">
             Total: ₹{totalPrice}
           </div>
 
-          {/* Address Form */}
           <div className="mt-6 space-y-3">
             <h3 className="text-lg font-semibold">Shipping Address</h3>
             <input
@@ -113,7 +110,9 @@ const Checkout = () => {
               name="street"
               placeholder="Street"
               value={address.street}
-              onChange={(e) => setAddress({ ...address, street: e.target.value })}
+              onChange={(e) =>
+                setAddress({ ...address, street: e.target.value })
+              }
               className="w-full p-2 border rounded"
             />
             <input
@@ -121,7 +120,9 @@ const Checkout = () => {
               name="city"
               placeholder="City"
               value={address.city}
-              onChange={(e) => setAddress({ ...address, city: e.target.value })}
+              onChange={(e) =>
+                setAddress({ ...address, city: e.target.value })
+              }
               className="w-full p-2 border rounded"
             />
             <input
@@ -129,12 +130,13 @@ const Checkout = () => {
               name="pincode"
               placeholder="Pincode"
               value={address.pincode}
-              onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
+              onChange={(e) =>
+                setAddress({ ...address, pincode: e.target.value })
+              }
               className="w-full p-2 border rounded"
             />
           </div>
 
-          {/* Place Order Button */}
           <div className="text-right mt-6">
             <button
               onClick={handlePlaceOrder}

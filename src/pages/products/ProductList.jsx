@@ -37,7 +37,7 @@ const ProductList = () => {
 
   return (
     <div className="flex flex-col md:flex-row p-4 gap-4">
-      {/*  Mobile  */}
+      {/*  for Mobile  */}
       <div className="md:hidden mb-4">
         <select
           className="w-full border px-3 py-2 rounded"
@@ -74,6 +74,7 @@ const ProductList = () => {
 
 
       <div className="flex-1">
+        <h2 className="text-3xl font-bold mb-6 text-center"> Browse Pet Products</h2>
 
         <div className="mb-4 flex flex-col md:flex-row items-center justify-between gap-4">
           {/*  Search */}

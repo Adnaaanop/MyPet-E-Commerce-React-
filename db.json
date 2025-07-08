@@ -90,6 +90,20 @@
       "email": "aa@gmail.com",
       "password": "aa@gmail.com",
       "role": "user"
+    },
+    {
+      "id": "aaeb",
+      "name": "asd",
+      "email": "adad@gmail.com",
+      "password": "adad@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": "4755",
+      "name": "adna",
+      "email": "adna@gmail.com",
+      "password": "adna@gmail.com",
+      "role": "admin"
     }
   ],
   "products": [
@@ -100,7 +114,7 @@
       "price": 450,
       "description": "Complete and balanced dog food for adult dogs.",
       "rating": 4.5,
-      "stock": -1,
+      "stock": 500,
       "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -110,7 +124,7 @@
       "price": 380,
       "description": "Tasty and nutritious cat food for healthy fur.",
       "rating": 4.2,
-      "stock": null,
+      "stock": 394,
       "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6"
     },
     {
@@ -120,7 +134,7 @@
       "price": 900,
       "description": "Comfortable and spacious cage for small birds.",
       "rating": 4,
-      "stock": null,
+      "stock": 900,
       "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -130,7 +144,7 @@
       "price": 1200,
       "description": "Includes tank, filter, and lights – great for beginners.",
       "rating": 4.6,
-      "stock": 6,
+      "stock": 1190,
       "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -140,7 +154,7 @@
       "price": 250,
       "description": "Durable and fun chew toys to keep your dog entertained.",
       "rating": 4.3,
-      "stock": -2,
+      "stock": 1099,
       "image": "https://images.unsplash.com/photo-1587559070757-f72a388edbba?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ],
@@ -870,29 +884,245 @@
       },
       "status": "Placed",
       "placedAt": "2025-07-07T11:11:29.211Z"
-    }
-  ],
-  "cart": [],
-  "wishlist": [
-    {
-      "id": "2",
-      "name": "Whiskas Dry Cat Food",
-      "category": "Cat",
-      "price": 380,
-      "description": "Tasty and nutritious cat food for healthy fur.",
-      "rating": 4.2,
-      "stock": -9,
-      "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
-      "userId": "ab9d"
     },
     {
-      "id": "1",
-      "name": "Buddy",
-      "breed": "Golden Retriever",
-      "age": 2,
-      "price": 15000,
-      "image": "https://images.unsplash.com/photo-1558788353-f76d92427f16",
-      "userId": "ab9d"
+      "id": "4cbf",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "2",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 400,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 5,
+          "productId": "2",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 1900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T10:29:38.761Z"
+    },
+    {
+      "id": "73f2",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006067900-0.5234672405089167",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 395,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 1,
+          "productId": "2",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 380,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T20:22:01.185Z"
+    },
+    {
+      "id": "c3bb",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006067900-0.5234672405089167",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 395,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 1,
+          "productId": "2",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 380,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T20:22:07.144Z"
+    },
+    {
+      "id": "1a47",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006138870-0.7923613239925302",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1200,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 10,
+          "productId": "4",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 12000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "adad",
+        "pincode": "123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T20:22:27.838Z"
+    },
+    {
+      "id": "b891",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006138870-0.7923613239925302",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1200,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 10,
+          "productId": "4",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 12000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T20:27:53.201Z"
+    },
+    {
+      "id": "f1a6",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006138870-0.7923613239925302",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1200,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 10,
+          "productId": "4",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 12000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-08T20:31:21.277Z"
+    },
+    {
+      "id": "a487",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752006787101-0.8290889974094561",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 380,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 395,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 1,
+          "productId": "2",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 380,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Delivered",
+      "placedAt": "2025-07-08T20:33:12.913Z"
+    },
+    {
+      "id": "d9dd",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752007067960-0.38146725997905784",
+          "name": "Dog Chew Toy (Set of 3)",
+          "category": "Dog",
+          "price": 250,
+          "description": "Durable and fun chew toys to keep your dog entertained.",
+          "rating": 4.3,
+          "stock": 1100,
+          "image": "https://images.unsplash.com/photo-1587559070757-f72a388edbba?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "5",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 250,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "Malappuram",
+        "pincode": "676317"
+      },
+      "status": "Shipped",
+      "placedAt": "2025-07-08T20:37:52.503Z"
+    }
+  ],
+  "cart": [
+    {
+      "id": "4",
+      "name": "Bubbles",
+      "breed": "Goldfish",
+      "age": 1,
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Fish",
+      "quantity": 1,
+      "productId": "4",
+      "userId": "53a8",
+      "type": "pet"
     },
     {
       "id": "3",
@@ -900,56 +1130,128 @@
       "breed": "Macaw Parrot",
       "age": 3,
       "price": 8000,
-      "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=850&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "userId": "ab9d"
+      "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Bird",
+      "quantity": 1,
+      "productId": "3",
+      "userId": "53a8",
+      "type": "pet"
+    },
+    {
+      "id": "1752003585845-0.055824310374713804",
+      "name": "Buddy",
+      "breed": "Golden Retriever",
+      "age": 2,
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "quantity": 1,
+      "productId": "1",
+      "userId": "53a8",
+      "type": "pet"
+    }
+  ],
+  "wishlist": [
+    {
+      "id": "4",
+      "name": "Bubbles",
+      "breed": "Goldfish",
+      "age": 1,
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Fish",
+      "userId": "53a8"
+    },
+    {
+      "id": "1752003692744-0.3789208502985021",
+      "name": "Whiskers",
+      "breed": "Persian Cat",
+      "age": 1,
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Cat",
+      "productId": "2",
+      "userId": "53a8"
+    },
+    {
+      "id": "1752003840646-0.875158982011034",
+      "name": "Polly",
+      "breed": "Macaw Parrot",
+      "age": 3,
+      "price": 8000,
+      "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Bird",
+      "productId": "3",
+      "userId": "53a8"
+    },
+    {
+      "id": "1752003846011-0.1559983846128169",
+      "name": "Max",
+      "breed": "Labrador",
+      "age": 2,
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "productId": "5",
+      "userId": "53a8"
+    },
+    {
+      "id": "1752003850210-0.7806777857399427",
+      "name": "Bubbles",
+      "breed": "Goldfish",
+      "age": 1,
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Fish",
+      "productId": "4",
+      "userId": "53a8"
     }
   ],
   "pets": [
-  {
-    "id": "1",
-    "name": "Buddy",
-    "breed": "Golden Retriever",
-    "age": 2,
-    "price": 15000,
-    "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "category": "Dog"
-  },
-  {
-    "id": "2",
-    "name": "Whiskers",
-    "breed": "Persian Cat",
-    "age": 1,
-    "price": 12000,
-    "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "category": "Cat"
-  },
-  {
-    "id": "3",
-    "name": "Polly",
-    "breed": "Macaw Parrot",
-    "age": 3,
-    "price": 8000,
-    "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "category": "Bird"
-  },
-  {
-    "id": "4",
-    "name": "Bubbles",
-    "breed": "Goldfish",
-    "age": 1,
-    "price": 300,
-    "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "category": "Fish"
-  },
-  {
-    "id": "5",
-    "name": "Max",
-    "breed": "Labrador",
-    "age": 2,
-    "price": 14000,
-    "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "category": "Dog"
-  }
-]
-
+    {
+      "id": "1",
+      "name": "Buddy",
+      "breed": "Golden Retriever",
+      "age": 2,
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog"
+    },
+    {
+      "id": "2",
+      "name": "Whiskers",
+      "breed": "Persian Cat",
+      "age": 1,
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Cat"
+    },
+    {
+      "id": "3",
+      "name": "Polly",
+      "breed": "Macaw Parrot",
+      "age": 3,
+      "price": 8000,
+      "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Bird"
+    },
+    {
+      "id": "4",
+      "name": "Bubbles",
+      "breed": "Goldfish",
+      "age": 1,
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1625369708811-65ebfc5ca632?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Fish"
+    },
+    {
+      "id": "5",
+      "name": "Max",
+      "breed": "Labrador",
+      "age": 2,
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog"
+    }
+  ]
 }
