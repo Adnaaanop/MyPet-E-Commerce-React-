@@ -1,3 +1,4 @@
+// src/pages/auth/Login.jsx
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -18,7 +19,7 @@ function Login() {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    email: Yup.string("").email("Invalid email").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password must be at least 8 characters")
@@ -31,7 +32,9 @@ function Login() {
 
       const user = res.data.find(
         (user) =>
-          user.email === values.email && user.password === values.password
+          user.email === values.email &&
+          user.password === values.password &&
+          user.status !== "blocked" // ✅ Prevent login if user is blocked
       );
 
       if (user) {
@@ -43,11 +46,26 @@ function Login() {
           navigate("/user/home");
         }
       } else {
-        actions.setFieldError("email", "Invalid credentials");
-        actions.setFieldError("password", " ");
+        // Check if the user exists but is blocked
+        const blockedUser = res.data.find(
+          (user) =>
+            user.email === values.email &&
+            user.password === values.password &&
+            user.status === "blocked"
+        );
+
+        if (blockedUser) {
+          actions.setFieldError("email", "User is blocked by admin");
+          actions.setFieldError("password", " ");
+        } else {
+          actions.setFieldError("email", "Invalid credentials");
+          actions.setFieldError("password", " ");
+        }
       }
     } catch (err) {
       console.error("Login failed", err);
+      actions.setFieldError("email", "Something went wrong");
+      actions.setFieldError("password", " ");
     }
   };
 

@@ -14,20 +14,17 @@ const Checkout = () => {
     pincode: "",
   });
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  const handlePlaceOrder = async () => {
+  const placeFinalOrder = async () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
       alert("Please log in to place an order.");
-      return;
-    }
-
-    if (!address.street || !address.city || !address.pincode) {
-      alert("Please fill all address fields.");
       return;
     }
 
@@ -41,11 +38,9 @@ const Checkout = () => {
     };
 
     try {
-      // Save order
       const res = await axios.post(`${BASE_URL}/orders`, newOrder);
       const savedOrder = res.data;
 
-      // Update stock for each item (IMPORTANT: use productId instead of id)
       for (const item of cartItems) {
         const updatedStock = item.stock - item.quantity;
 
@@ -58,13 +53,27 @@ const Checkout = () => {
         }
       }
 
-      // Clear cart and redirect
       clearCart();
       navigate("/order-summary", { state: { order: savedOrder } });
     } catch (error) {
       console.error("Error placing order:", error);
       alert("❌ Failed to place order. Try again.");
     }
+  };
+
+  const handlePlaceOrder = () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please log in to place an order.");
+      return;
+    }
+
+    if (!address.street || !address.city || !address.pincode) {
+      alert("Please fill all address fields.");
+      return;
+    }
+
+    setShowConfirm(true);
   };
 
   return (
@@ -144,6 +153,34 @@ const Checkout = () => {
             >
               Place Order (COD)
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Order Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center max-w-md">
+            <p className="mb-4 text-gray-800 font-semibold">
+              Are you sure you want to place this order? <br />
+              <span className="text-sm text-gray-500">
+                This action cannot be undone.
+              </span>
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={placeFinalOrder}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                Yes, Place Order
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

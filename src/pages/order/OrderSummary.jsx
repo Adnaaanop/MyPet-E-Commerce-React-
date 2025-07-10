@@ -122,12 +122,19 @@ const OrderSummary = () => {
         </p>
       </div>
 
-      <div className="text-center mt-6">
+      {/* Action Buttons */}
+      <div className="flex justify-center gap-4 mt-6">
         <button
           onClick={() => navigate("/")}
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
           Back to Home
+        </button>
+        <button
+          onClick={() => navigate("/my-orders")}
+          className="bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-900"
+        >
+          View All Orders
         </button>
       </div>
     </div>

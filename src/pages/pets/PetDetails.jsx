@@ -30,7 +30,7 @@ const PetDetails = () => {
 
     try {
       await addToCart({ ...pet, quantity: 1 });
-      navigate("/cart");
+      alert("Pet is ready to adopt!");
     } catch (err) {
       console.error("Error adding pet to cart:", err);
       alert("Something went wrong. Please try again.");

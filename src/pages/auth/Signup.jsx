@@ -34,8 +34,6 @@ const Signup = () => {
       const response = await axios.post(`${BASE_URL}/users`, values);
       const userId = response.data.id;
 
-  
-
       login(userId, values.role); 
       actions.resetForm();
 

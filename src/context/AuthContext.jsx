@@ -1,6 +1,8 @@
+// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from "../services/base"; 
+import { BASE_URL } from "../services/base";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -9,24 +11,39 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedId = localStorage.getItem("userId");
 
     if (storedId) {
-      
       setUserId(storedId);
 
-      axios.get(`${BASE_URL}/users/${storedId}`).then((res) => {
-        setUserRole(res.data.role);
-      });
+      axios
+        .get(`${BASE_URL}/users/${storedId}`)
+        .then((res) => {
+          const user = res.data;
+
+          // ✅ Check if user is blocked
+          if (user.status === "blocked") {
+            alert("Your account has been blocked by the admin.");
+            logout(); // Auto logout
+            navigate("/login");
+          } else {
+            setUserRole(user.role);
+          }
+        })
+        .catch((err) => {
+          console.error("Auth load failed", err);
+          logout(); // Clear broken session
+        });
     }
   }, []);
 
   const login = (id, role) => {
     localStorage.setItem("userId", id);
     setUserId(id);
-    setUserRole(role); 
+    setUserRole(role);
   };
 
   const logout = () => {
@@ -34,7 +51,6 @@ export const AuthProvider = ({ children }) => {
     setUserId(null);
     setUserRole(null);
   };
-
 
   const isLoggedIn = !!userId;
 
