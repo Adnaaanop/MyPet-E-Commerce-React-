@@ -33,6 +33,7 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import UserLayout from "../components/layout/UserLayout";
 import BasicLayout from "../components/layout/BasicLayout";
 import AdminLayout from "../components/layout/AdminLayout";
+import Home from "../pages/home/Home";
 
 const AllRoutes = () => {
   return (
@@ -160,7 +161,14 @@ const AllRoutes = () => {
       </Route>
 
       {/* 🌐 Default Redirect */}
-      <Route path="/" element={<Navigate to="/products" />} />
+      <Route
+        path="/"
+        element={
+          <BasicLayout>
+            <Home />
+          </BasicLayout>
+        }
+      />
     </Routes>
   );
 };
