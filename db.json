@@ -154,7 +154,7 @@
       "price": 400,
       "description": "Tasty and nutritious cat food for healthy fur.",
       "rating": 4.2,
-      "stock": 200,
+      "stock": 195,
       "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6"
     },
     {
@@ -164,7 +164,7 @@
       "price": 900,
       "description": "Comfortable and spacious cage for small birds.",
       "rating": 4,
-      "stock": 898,
+      "stock": 797,
       "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -191,7 +191,7 @@
       "id": "dd94",
       "name": "Ball for Cats",
       "price": 500,
-      "stock": 600,
+      "stock": 599,
       "category": "Cat",
       "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "rating": 3,
@@ -1342,6 +1342,749 @@
       },
       "status": "Placed",
       "placedAt": "2025-07-10T10:13:27.911Z"
+    },
+    {
+      "id": "b070",
+      "userId": "dd82",
+      "items": [
+        {
+          "id": "1752403706215-0.5829371445085619",
+          "name": "Polly",
+          "breed": "Macaw Parrot",
+          "age": 3,
+          "price": 8000,
+          "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Bird",
+          "stock": 800,
+          "description": "Naughty Parrot",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "dd82",
+          "type": "pet"
+        }
+      ],
+      "total": 8000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T10:57:41.428Z"
+    },
+    {
+      "id": "d243",
+      "userId": "dd82",
+      "items": [
+        {
+          "id": "1752404279136-0.08027905796583035",
+          "name": "Whiskers",
+          "breed": "Persian Cat",
+          "age": 1,
+          "price": 12000,
+          "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Cat",
+          "stock": 900,
+          "description": "Good Cat",
+          "quantity": 1,
+          "productId": "2",
+          "userId": "dd82",
+          "type": "pet"
+        },
+        {
+          "id": "1752404313021-0.8426388869606394",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 400,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 200,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 4,
+          "productId": "2",
+          "userId": "dd82",
+          "type": "product"
+        }
+      ],
+      "total": 13600,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T11:15:18.463Z"
+    },
+    {
+      "id": "b0a6",
+      "userId": "dd82",
+      "items": [
+        {
+          "id": "1752405859394-0.06375906017353139",
+          "name": "Polly",
+          "breed": "Macaw Parrot",
+          "age": 3,
+          "price": 8000,
+          "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Bird",
+          "stock": 800,
+          "description": "Naughty Parrot",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "dd82",
+          "type": "pet"
+        }
+      ],
+      "total": 8000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T11:24:31.041Z"
+    },
+    {
+      "id": "13f0",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T14:41:44.523Z"
+    },
+    {
+      "id": "10ea",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T14:45:31.975Z"
+    },
+    {
+      "id": "7ccf",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:03:55.858Z"
+    },
+    {
+      "id": "ab93",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:04:49.168Z"
+    },
+    {
+      "id": "6410",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:14:47.489Z"
+    },
+    {
+      "id": "8fe1",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        },
+        {
+          "id": "1752417664121-0.820281671031858",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752417675051-0.9490634081113944",
+          "name": "Rocky",
+          "breed": "African lion",
+          "age": 10,
+          "price": 100000,
+          "stock": 12,
+          "category": "Lion",
+          "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "description": "Aggressive lion",
+          "quantity": 1,
+          "productId": "2ead",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "total": 104900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:25:28.826Z"
+    },
+    {
+      "id": "9d7d",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752417657243-0.7472620061207371",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 799,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:25:54.686Z"
+    },
+    {
+      "id": "dffe",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752420436898-0.5961718063550411",
+          "name": "Max",
+          "breed": "Labrador",
+          "age": 2,
+          "price": 14000,
+          "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Dog",
+          "stock": 2000,
+          "description": "cute dog",
+          "quantity": 1,
+          "productId": "5",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752420443568-0.3861747450990093",
+          "name": "Ball for Cats",
+          "price": 500,
+          "stock": 600,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 3,
+          "description": "Ball perfectly suitable for small cats",
+          "quantity": 1,
+          "productId": "dd94",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 14500,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:27:32.480Z"
+    },
+    {
+      "id": "90a8",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752420436898-0.5961718063550411",
+          "name": "Max",
+          "breed": "Labrador",
+          "age": 2,
+          "price": 14000,
+          "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Dog",
+          "stock": 2000,
+          "description": "cute dog",
+          "quantity": 1,
+          "productId": "5",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752420443568-0.3861747450990093",
+          "name": "Ball for Cats",
+          "price": 500,
+          "stock": 600,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 3,
+          "description": "Ball perfectly suitable for small cats",
+          "quantity": 1,
+          "productId": "dd94",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 14500,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:28:01.850Z"
+    },
+    {
+      "id": "2885",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752420436898-0.5961718063550411",
+          "name": "Max",
+          "breed": "Labrador",
+          "age": 2,
+          "price": 14000,
+          "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Dog",
+          "stock": 2000,
+          "description": "cute dog",
+          "quantity": 1,
+          "productId": "5",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752420443568-0.3861747450990093",
+          "name": "Ball for Cats",
+          "price": 500,
+          "stock": 600,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 3,
+          "description": "Ball perfectly suitable for small cats",
+          "quantity": 1,
+          "productId": "dd94",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 14500,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:30:44.095Z"
+    },
+    {
+      "id": "9543",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752420436898-0.5961718063550411",
+          "name": "Max",
+          "breed": "Labrador",
+          "age": 2,
+          "price": 14000,
+          "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Dog",
+          "stock": 2000,
+          "description": "cute dog",
+          "quantity": 1,
+          "productId": "5",
+          "userId": "ab9d",
+          "type": "pet"
+        },
+        {
+          "id": "1752420443568-0.3861747450990093",
+          "name": "Ball for Cats",
+          "price": 500,
+          "stock": 600,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 3,
+          "description": "Ball perfectly suitable for small cats",
+          "quantity": 1,
+          "productId": "dd94",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 14500,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:33:23.286Z"
+    },
+    {
+      "id": "656d",
+      "userId": "ab9d",
+      "items": [
+        {
+          "id": "1752421022533-0.2793785512515944",
+          "name": "Bird Cage – Medium",
+          "category": "Bird",
+          "price": 900,
+          "description": "Comfortable and spacious cage for small birds.",
+          "rating": 4,
+          "stock": 798,
+          "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "total": 900,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:37:10.992Z"
+    },
+    {
+      "id": "3abf",
+      "userId": "8e78",
+      "items": [
+        {
+          "id": "1752421084600-0.8071813426098804",
+          "name": "Whiskas Dry Cat Food",
+          "category": "Cat",
+          "price": 400,
+          "description": "Tasty and nutritious cat food for healthy fur.",
+          "rating": 4.2,
+          "stock": 196,
+          "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+          "quantity": 1,
+          "productId": "2",
+          "userId": "8e78",
+          "type": "product"
+        },
+        {
+          "id": "1752421090828-0.7271524130922853",
+          "name": "Polly",
+          "breed": "Macaw Parrot",
+          "age": 3,
+          "price": 8000,
+          "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Bird",
+          "stock": 800,
+          "description": "Naughty Parrot",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "8e78",
+          "type": "pet"
+        }
+      ],
+      "total": 8400,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-13T15:38:32.162Z"
+    },
+    {
+      "id": "8ae6",
+      "userId": "8e78",
+      "items": [
+        {
+          "id": "1752422206791-0.5243316809827366",
+          "name": "Buddy",
+          "breed": "Golden Retriever",
+          "age": 2,
+          "price": 15000,
+          "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Dog",
+          "stock": 1200,
+          "description": "Good Dog",
+          "quantity": 1,
+          "productId": "1",
+          "userId": "8e78",
+          "type": "pet"
+        }
+      ],
+      "total": 15000,
+      "address": {
+        "street": "Kakkanchery",
+        "city": "ponnani",
+        "pincode": "123123"
+      },
+      "status": "Delivered",
+      "placedAt": "2025-07-13T15:56:54.075Z"
     }
   ],
   "cart": [
@@ -1385,75 +2128,22 @@
       "type": "pet"
     },
     {
-      "id": "1752122354573-0.7701507690461131",
-      "name": "Bird Cage – Medium",
-      "category": "Bird",
-      "price": 900,
-      "description": "Comfortable and spacious cage for small birds.",
-      "rating": 4,
-      "stock": 900,
-      "image": "https://images.unsplash.com/photo-1634413102755-7f0857eba45b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "id": "1752417639562-0.8592124347264786",
+      "name": "Rocky",
+      "breed": "African lion",
+      "age": 10,
+      "price": 100000,
+      "stock": 12,
+      "category": "Lion",
+      "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "description": "Aggressive lion",
       "quantity": 1,
-      "productId": "3",
+      "productId": "2ead",
       "userId": "dd82",
-      "type": "product"
-    },
-    {
-      "id": "1752130833286-0.29453242455728046",
-      "name": "Ball for Cats",
-      "price": 500,
-      "stock": 600,
-      "category": "Cat",
-      "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "rating": 3,
-      "description": "Ball perfectly suitable for small cats",
-      "quantity": 2,
-      "productId": "dd94",
-      "userId": "dd82",
-      "type": "product"
-    },
-    {
-      "id": "1752142391606-0.9492818391341789",
-      "name": "Pedigree Adult Dog Food",
-      "category": "Dog",
-      "price": 430,
-      "description": "Complete and balanced dog food for adult dogs.",
-      "rating": 4.5,
-      "stock": 1000,
-      "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "quantity": 4,
-      "productId": "1",
-      "userId": "dd82",
-      "type": "product"
-    },
-    {
-      "id": "1752144050327-0.8133232951540347",
-      "name": "Whiskas Dry Cat Food",
-      "category": "Cat",
-      "price": 380,
-      "description": "Tasty and nutritious cat food for healthy fur.",
-      "rating": 4.2,
-      "stock": null,
-      "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
-      "productId": "1752066649969-0.13746352169862763",
-      "userId": "ab9d",
-      "quantity": 1,
-      "type": "product"
+      "type": "pet"
     }
   ],
   "wishlist": [
-    {
-      "id": "1752066653759-0.9330421783110148",
-      "name": "Pedigree Adult Dog Food",
-      "category": "Dog",
-      "price": 450,
-      "description": "Complete and balanced dog food for adult dogs.",
-      "rating": 4.5,
-      "stock": 500,
-      "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "productId": "1",
-      "userId": "ab9d"
-    },
     {
       "id": "1752066657316-0.9594759652270656",
       "name": "Aquarium Starter Kit",
@@ -1467,17 +2157,6 @@
       "userId": "ab9d"
     },
     {
-      "id": "1752066685988-0.811473458333591",
-      "name": "Max",
-      "breed": "Labrador",
-      "age": 2,
-      "price": 14000,
-      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "category": "Dog",
-      "productId": "5",
-      "userId": "ab9d"
-    },
-    {
       "id": "1752066757053-0.3380299005528439",
       "name": "Polly",
       "breed": "Macaw Parrot",
@@ -1487,6 +2166,19 @@
       "category": "Bird",
       "productId": "3",
       "userId": "53a8"
+    },
+    {
+      "id": "1752386852371-0.9162857267330231",
+      "name": "Max",
+      "breed": "Labrador",
+      "age": 2,
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "stock": 2000,
+      "description": "cute dog",
+      "productId": "5",
+      "userId": "ab9d"
     }
   ],
   "pets": [
@@ -1498,7 +2190,7 @@
       "price": 15000,
       "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Dog",
-      "stock": 1200,
+      "stock": 1199,
       "description": "Good Dog"
     },
     {
@@ -1520,7 +2212,7 @@
       "price": 8000,
       "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Bird",
-      "stock": 800,
+      "stock": 799,
       "description": "Naughty Parrot"
     },
     {
@@ -1542,7 +2234,7 @@
       "price": 14000,
       "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Dog",
-      "stock": 2000,
+      "stock": 1999,
       "description": "cute dog"
     },
     {
@@ -1565,6 +2257,17 @@
       "category": "Lion",
       "image": "https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "description": "Aggressive lion"
+    },
+    {
+      "id": "65b2",
+      "name": "Pixie",
+      "breed": "Ragdoll",
+      "age": 4,
+      "description": "Tiny, sneaky, and full of sass—this cat lives to cause chaos and look cute doing it.",
+      "price": 4000,
+      "stock": 500,
+      "category": "Cat",
+      "image": "https://images.unsplash.com/photo-1666194009942-33b69cb12ca5?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ]
 }

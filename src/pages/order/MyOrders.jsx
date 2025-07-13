@@ -7,17 +7,31 @@ const MyOrders = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     if (userId) {
+      // Replace with your API call
       axios
         .get(`${BASE_URL}/orders?userId=${userId}`)
         .then((res) => {
           setOrders(res.data);
           setFilteredOrders(res.data);
+          setLoading(false);
         })
-        .catch((err) => console.error("Error fetching orders:", err));
+        .catch((err) => {
+          console.error("Error fetching orders:", err);
+          setLoading(false);
+        });
+      
+      // For now, just set empty orders
+      setOrders([]);
+      setFilteredOrders([]);
+      setLoading(false);
+    } else {
+      setLoading(false);
     }
   }, [userId]);
 
@@ -46,170 +60,385 @@ const MyOrders = () => {
     setSortOrder("");
   };
 
-  const getProgressPercent = (status) => {
-    switch (status) {
-      case "Placed":
-        return 33;
-      case "Shipped":
-        return 66;
-      case "Delivered":
-        return 100;
-      default:
-        return 0;
-    }
-  };
-
   const getStatusBadge = (status) => {
-    const base = "px-2 py-1 text-xs rounded font-medium";
+    const base = "px-3 py-1 text-sm rounded-full font-semibold transition-all duration-300";
     switch (status) {
       case "Placed":
-        return <span className={`${base} bg-blue-100 text-blue-700`}>Placed</span>;
+        return <span className={`${base} bg-blue-100 text-blue-700 shadow-md`}>Placed</span>;
       case "Shipped":
-        return <span className={`${base} bg-yellow-100 text-yellow-700`}>Shipped</span>;
+        return <span className={`${base} bg-yellow-100 text-yellow-700 shadow-md`}>Shipped</span>;
       case "Delivered":
-        return <span className={`${base} bg-green-100 text-green-700`}>Delivered</span>;
+        return <span className={`${base} bg-green-100 text-green-700 shadow-md`}>Delivered</span>;
       default:
-        return <span className={`${base} bg-gray-100 text-gray-700`}>{status}</span>;
+        return <span className={`${base} bg-gray-100 text-gray-700 shadow-md`}>{status}</span>;
     }
   };
 
-  if (!userId) {
-    return <p className="text-center mt-10 text-red-600">Please login to view your orders.</p>;
+  const getTimelineSteps = (status) => {
+    const steps = [
+      { 
+        key: "Placed", 
+        label: "Order Placed", 
+        icon: "📋",
+        color: "bg-blue-500",
+        lightColor: "bg-blue-100"
+      },
+      { 
+        key: "Shipped", 
+        label: "Order Shipped", 
+        icon: "🚚",
+        color: "bg-yellow-500",
+        lightColor: "bg-yellow-100"
+      },
+      { 
+        key: "Delivered", 
+        label: "Delivered", 
+        icon: "✅",
+        color: "bg-green-500",
+        lightColor: "bg-green-100"
+      }
+    ];
+
+    const currentIndex = steps.findIndex(step => step.key === status);
+    
+    return steps.map((step, index) => ({
+      ...step,
+      isActive: index <= currentIndex,
+      isCurrent: index === currentIndex
+    }));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#fff5ee] flex items-center justify-center">
+        <div className="text-center animate-fade-in-up">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center animate-pulse">
+            <svg className="w-8 h-8 text-white animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <p className="text-gray-600 text-lg font-medium">Loading your orders...</p>
+        </div>
+      </div>
+    );
   }
 
   if (orders.length === 0) {
     return (
-      <p className="text-center mt-10 text-gray-600 text-lg">
-        🐾 You haven’t placed any orders yet. Start shopping now!
-      </p>
+      <div className="min-h-screen bg-[#fff5ee] flex items-center justify-center">
+        <div className="text-center animate-fade-in-up">
+          <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center">
+            <svg className="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+          <h3 className="text-3xl font-bold text-gray-800 mb-4">No Orders Yet</h3>
+          <p className="text-gray-600 text-lg mb-6">🐾 You haven't placed any orders yet. Start shopping now!</p>
+          <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            Start Shopping
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
-      {/* Sidebar */}
-      <div className="md:w-64 space-y-4">
-        <div className="sticky top-20 bg-white p-4 border rounded shadow space-y-3">
-          <h3 className="font-semibold text-gray-700">🔍 Filters</h3>
-
-          {/* Filter by Status */}
-          <select
-            className="w-full border p-2 rounded text-sm"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+    <div className="min-h-screen bg-[#fff5ee] font-sans">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-orange-50 to-orange-100 py-16">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center animate-bounce">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h1 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 animate-fade-in-up"
+            style={{
+              fontFamily: '"Fredoka One", cursive',
+              lineHeight: "1.1",
+            }}
           >
-            <option value="">All Status</option>
-            <option value="Placed">Placed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Delivered">Delivered</option>
-          </select>
-
-          {/* Sort */}
-          <select
-            className="w-full border p-2 rounded text-sm"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="">Sort By</option>
-            <option value="newest">📅 Newest First</option>
-            <option value="oldest">📅 Oldest First</option>
-            <option value="low">💸 Total: Low to High</option>
-            <option value="high">💸 Total: High to Low</option>
-          </select>
-
-          <button
-            onClick={clearFilters}
-            className="w-full bg-gray-100 text-gray-700 text-sm py-1 rounded hover:bg-gray-200"
-          >
-            🔁 Clear Filters
-          </button>
+            📦 My Orders
+          </h1>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto animate-fade-in-up delay-100">
+            Track your adorable pet purchases and delivery status
+          </p>
         </div>
       </div>
 
-      {/* Orders List */}
-      <div className="flex-1 space-y-6">
-        <h2 className="text-3xl font-bold text-blue-700 mb-4">📦 My Orders</h2>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-80 space-y-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Filters & Sort</h3>
+              </div>
 
-        {filteredOrders.map((order) => (
-          <div
-            key={order.id}
-            className="bg-white border shadow-md rounded-lg p-5 space-y-4 hover:shadow-lg transition-all"
-          >
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-              <div>
-                <p className="text-gray-700 text-sm">
-                  🧾 <strong>Order ID:</strong> #{order.id}
-                </p>
-                <p className="text-sm text-gray-500">
-                  📅 {new Date(order.placedAt).toLocaleString()}
-                </p>
-              </div>
-              <div className="text-sm space-x-2">
-                {getStatusBadge(order.status)}
-                <span className="font-semibold">Total: ₹{order.total}</span>
-              </div>
-            </div>
-
-            <div>
-              <div className="w-full bg-gray-200 h-3 rounded-full">
-                <div
-                  className={`h-3 rounded-full transition-all duration-500 ${
-                    order.status === "Delivered"
-                      ? "bg-green-500"
-                      : order.status === "Shipped"
-                      ? "bg-yellow-500"
-                      : "bg-blue-500"
-                  }`}
-                  style={{ width: `${getProgressPercent(order.status)}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Placed</span>
-                <span>Shipped</span>
-                <span>Delivered</span>
-              </div>
-            </div>
-
-            <div>
-              <p className="font-medium mb-2 text-gray-700">🐶 Items:</p>
-              <div className="space-y-2">
-                {order.items.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex justify-between items-center border p-3 rounded bg-gray-50"
+              <div className="space-y-4">
+                {/* Status Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Status</label>
+                  <select
+                    className="w-full border-2 border-gray-200 p-3 rounded-xl text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-300"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
                   >
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-14 h-14 rounded object-cover"
-                      />
-                      <div>
-                        <p className="font-semibold">{item.name}</p>
-                        <p className="text-sm text-gray-600">
-                          ₹{item.price} × {item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="font-semibold text-green-600">
-                      ₹{item.price * item.quantity}
-                    </p>
+                    <option value="">All Status</option>
+                    <option value="Placed">📋 Placed</option>
+                    <option value="Shipped">🚚 Shipped</option>
+                    <option value="Delivered">✅ Delivered</option>
+                  </select>
+                </div>
+
+                {/* Sort */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Sort Orders</label>
+                  <select
+                    className="w-full border-2 border-gray-200 p-3 rounded-xl text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-300"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                  >
+                    <option value="">Default Sort</option>
+                    <option value="newest">📅 Newest First</option>
+                    <option value="oldest">📅 Oldest First</option>
+                    <option value="low">💸 Total: Low to High</option>
+                    <option value="high">💸 Total: High to Low</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={clearFilters}
+                  className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Clear Filters
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="mt-6 p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl">
+                <h4 className="font-semibold text-gray-800 mb-2">📊 Order Summary</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>Total Orders:</span>
+                    <span className="font-bold text-orange-600">{orders.length}</span>
                   </div>
-                ))}
+                  <div className="flex justify-between">
+                    <span>Delivered:</span>
+                    <span className="font-bold text-green-600">
+                      {orders.filter(o => o.status === "Delivered").length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>In Progress:</span>
+                    <span className="font-bold text-yellow-600">
+                      {orders.filter(o => o.status !== "Delivered").length}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {order.status !== "Delivered" && (
-              <p className="text-sm text-gray-500 mt-2">
-                ⏳ <strong>Estimated Delivery:</strong>{" "}
-                {new Date(
-                  new Date(order.placedAt).getTime() + 5 * 24 * 60 * 60 * 1000
-                ).toLocaleDateString()}
-              </p>
-            )}
           </div>
-        ))}
+
+          {/* Orders List */}
+          <div className="flex-1 space-y-6">
+            {filteredOrders.map((order, index) => (
+              <div
+                key={order.id}
+                className="group bg-white rounded-2xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in-up relative overflow-hidden"
+                style={{
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                
+                {/* Order Header */}
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-800">Order #{order.id}</h3>
+                      <p className="text-sm text-gray-500">
+                        {new Date(order.placedAt).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    {getStatusBadge(order.status)}
+                    <div className="text-right">
+                      <p className="text-sm text-gray-500">Total Amount</p>
+                      <p className="text-xl font-bold text-green-600">₹{order.total}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Order Timeline */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-4">Order Status</h4>
+                  <div className="flex items-center justify-between relative">
+                    {getTimelineSteps(order.status).map((step, stepIndex) => (
+                      <div key={step.key} className="flex flex-col items-center relative z-10">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg transition-all duration-500 ${
+                          step.isActive 
+                            ? `${step.color} text-white shadow-lg transform scale-110` 
+                            : `${step.lightColor} text-gray-400`
+                        } ${step.isCurrent ? 'animate-pulse' : ''}`}>
+                          {step.icon}
+                        </div>
+                        <div className="mt-2 text-center">
+                          <p className={`text-xs font-medium ${
+                            step.isActive ? 'text-gray-800' : 'text-gray-400'
+                          }`}>
+                            {step.label}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Connecting Line */}
+                    <div className="absolute top-6 left-6 right-6 h-0.5 bg-gray-200 -z-10">
+                      <div 
+                        className="h-full bg-gradient-to-r from-blue-500 via-yellow-500 to-green-500 transition-all duration-1000 ease-out"
+                        style={{
+                          width: order.status === 'Placed' ? '0%' : 
+                                 order.status === 'Shipped' ? '50%' : '100%'
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Order Items */}
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    Items ({order.items.length})
+                  </h4>
+                  <div className="space-y-3">
+                    {order.items.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.01]"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="relative overflow-hidden rounded-lg">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-16 h-16 object-cover transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-gray-800">{item.name}</h5>
+                            <p className="text-sm text-gray-500 flex items-center gap-2">
+                              <span className="font-medium">₹{item.price}</span>
+                              <span>×</span>
+                              <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
+                                {item.quantity}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-lg text-green-600">
+                            ₹{item.price * item.quantity}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Estimated Delivery */}
+                {order.status !== "Delivered" && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-center gap-3">
+                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-yellow-800">Estimated Delivery</p>
+                      <p className="text-sm text-yellow-700">
+                        {new Date(
+                          new Date(order.placedAt).getTime() + 5 * 24 * 60 * 60 * 1000
+                        ).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* Custom CSS for animations */}
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s ease-out forwards;
+        }
+        
+        .delay-100 {
+          animation-delay: 100ms;
+        }
+        
+        .delay-200 {
+          animation-delay: 200ms;
+        }
+        
+        .delay-300 {
+          animation-delay: 300ms;
+        }
+        
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        .group:hover .group-hover\\:scale-110 {
+          transform: scale(1.1);
+        }
+        
+        .group:hover .group-hover\\:scale-x-100 {
+          transform: scaleX(1);
+        }
+      `}</style>
     </div>
   );
 };

@@ -1,60 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const petCareTips = [
-    {
-      icon: "🐕",
-      title: "Daily Exercise",
-      tip: "Dogs need at least 30 minutes of exercise daily to stay healthy and happy!"
-    },
-    {
-      icon: "🐱",
-      title: "Fresh Water",
-      tip: "Always keep fresh water available. Cats prefer wide, shallow bowls."
-    },
-    {
-      icon: "🦴",
-      title: "Dental Health",
-      tip: "Brush your pet's teeth regularly or provide dental chews to prevent tartar buildup."
-    },
-    {
-      icon: "🥗",
-      title: "Balanced Diet",
-      tip: "Feed age-appropriate food and avoid overfeeding. Treats should be less than 10% of daily calories."
-    },
-    {
-      icon: "🏥",
-      title: "Regular Checkups",
-      tip: "Schedule annual vet visits for vaccinations and health screenings."
-    },
-    {
-      icon: "🎾",
-      title: "Mental Stimulation",
-      tip: "Puzzle toys and training sessions keep your pet's mind sharp and engaged."
-    },
-    {
-      icon: "🛁",
-      title: "Grooming Care",
-      tip: "Regular brushing reduces shedding and helps you spot skin issues early."
-    },
-    {
-      icon: "🌡️",
-      title: "Temperature Safety",
-      tip: "Never leave pets in hot cars. Provide shade and water during summer."
-    }
-  ];
-
-  const [currentTip, setCurrentTip] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTip((prev) => (prev + 1) % petCareTips.length);
-    }, 4000); // Change tip every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [petCareTips.length]);
-
   return (
     <footer className="relative bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 overflow-hidden">
       {/* Decorative Wave */}
@@ -107,18 +54,14 @@ const Footer = () => {
                 We care for your pets, loving them like family. We are the company where happy pets and happy owners meet.
               </p>
             </div>
-            
+
             {/* Social Media */}
             <div className="flex justify-center md:justify-start space-x-4">
-              <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-all duration-300 cursor-pointer transform hover:scale-110 hover:-translate-y-1 shadow-lg">
-                <span className="text-white font-bold text-lg">f</span>
-              </div>
-              <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-all duration-300 cursor-pointer transform hover:scale-110 hover:-translate-y-1 shadow-lg">
-                <span className="text-white font-bold text-lg">ig</span>
-              </div>
-              <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-all duration-300 cursor-pointer transform hover:scale-110 hover:-translate-y-1 shadow-lg">
-                <span className="text-white font-bold text-lg">tw</span>
-              </div>
+              {['f', 'ig', 'tw'].map((label, i) => (
+                <div key={i} className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-all duration-300 cursor-pointer transform hover:scale-110 hover:-translate-y-1 shadow-lg">
+                  <span className="text-white font-bold text-lg">{label}</span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -135,7 +78,6 @@ const Footer = () => {
                   <p className="text-gray-600 text-sm"> MyPet, Kakkanchery, Kerala </p>
                 </div>
               </div>
-              
               <div className="flex items-center justify-center md:justify-start space-x-4 group">
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
                   <span className="text-orange-500 text-xl">📞</span>
@@ -145,7 +87,6 @@ const Footer = () => {
                   <p className="text-gray-600 text-sm">+91 7591972747</p>
                 </div>
               </div>
-              
               <div className="flex items-center justify-center md:justify-start space-x-4 group">
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
                   <span className="text-orange-500 text-xl">✉️</span>
@@ -158,39 +99,30 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Pet Care Tips */}
+          {/* Floating Hearts Animation */}
           <div className="space-y-6 text-center md:text-left">
-            <h4 className="text-xl font-semibold text-gray-800 mb-6">Pet Care Tips</h4>
-            <div className="bg-orange-50 rounded-2xl p-6 border border-orange-200 transition-all duration-500 hover:shadow-lg">
-              <div className="flex items-start space-x-4">
-                <div className="text-3xl animate-pulse">
-                  {petCareTips[currentTip].icon}
-                </div>
-                <div className="flex-1">
-                  <h5 className="text-gray-800 font-semibold mb-2">
-                    {petCareTips[currentTip].title}
-                  </h5>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {petCareTips[currentTip].tip}
-                  </p>
+            <h4 className="text-xl font-semibold text-gray-800 mb-6 invisible">Show Some Love</h4>
+            <div className="relative h-40 w-80 overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50 to-red-50 shadow-lg">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-4xl mb-2">🐾</div>
+                  <p className="text-gray-600 font-medium">Show some love!</p>
                 </div>
               </div>
-              
-              {/* Tip indicator dots */}
-              <div className="flex justify-center mt-4 space-x-2">
-                {petCareTips.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTip(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentTip ? 'bg-orange-500' : 'bg-orange-300'
-                    }`}
-                  />
-                ))}
-              </div>
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute text-red-400 animate-float"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`
+                  }}
+                >
+                  ❤️
+                </div>
+              ))}
             </div>
-            
-            
           </div>
         </div>
 
