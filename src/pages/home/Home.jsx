@@ -9,6 +9,8 @@ import {
   GiDeliveryDrone,
   GiLoveMystery,
 } from "react-icons/gi";
+import Footer from "../../components/layout/Footer";
+import Newsletter from "../../components/layout/Newsletter";
 
 
 const Home = () => {
@@ -186,8 +188,156 @@ useEffect(() => {
   </svg>
 </div>
 
-      {/* Featured Pets Section */}
+
+{/* Featured Pets Section */}
 <section className="py-16 px-6 md:px-12 bg-[#fff5ee]">
+  <div className="max-w-7xl mx-auto">
+    <div className="flex items-center justify-between mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Meet Our Pets</h2>
+      <Link
+        to="/pets"
+        className="text-orange-500 font-semibold hover:underline"
+      >
+        View More Pets →
+      </Link>
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {pets.slice(0, 3).map((pet) => (
+        <div 
+          key={pet.id} 
+          className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 p-4 cursor-pointer overflow-hidden relative"
+        >
+          {/* Image Container with Overlay */}
+          <div className="relative overflow-hidden rounded-lg mb-4">
+            <img
+              src={pet.image}
+              alt={pet.name}
+              className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            {/* Gradient overlay that appears on hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            {/* Heart icon for favorites */}
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
+                <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
+              {pet.name}
+            </h3>
+            <p className="text-sm text-gray-500">{pet.breed}</p>
+            
+            {/* Action button that slides up on hover */}
+            <div className="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+              <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium">
+                Learn More
+              </button>
+            </div>
+          </div>
+
+          {/* Decorative element */}
+          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-orange-400 to-orange-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Featured Products Section */}
+<section className="py-16 px-6 md:px-12 bg-white">
+  <div className="max-w-7xl mx-auto">
+    <div className="flex items-center justify-between mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Featured Products</h2>
+      <Link
+        to="/products"
+        className="text-orange-500 font-semibold hover:underline"
+      >
+        View More Products →
+      </Link>
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {products.slice(0, 3).map((product) => (
+        <div 
+          key={product.id} 
+          className="group bg-[#fff5ee] rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 p-4 cursor-pointer overflow-hidden relative"
+        >
+          {/* Image Container */}
+          <div className="relative overflow-hidden rounded-lg mb-4">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            
+            {/* Quick action buttons */}
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div className="flex gap-2">
+                <button className="p-2 bg-white rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+                <button className="p-2 bg-white rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293a1 1 0 001.414 1.414L9 14m0 0h8m-8 0V9a3 3 0 013-3h2a3 3 0 013 3v5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
+              {product.name}
+            </h3>
+            <div className="flex items-center justify-between">
+              <p className="text-lg font-bold text-orange-600">₹{product.price}</p>
+              {/* Rating stars */}
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                ))}
+              </div>
+            </div>
+            
+            {/* Add to cart button that slides up */}
+            <div className="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+              <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium flex items-center justify-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293a1 1 0 001.414 1.414L9 14m0 0h8m-8 0V9a3 3 0 013-3h2a3 3 0 013 3v5" />
+                </svg>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+
+          {/* Decorative corner */}
+          <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<Newsletter/>
+<Footer/>
+
+    </div>
+  );
+};
+
+export default Home;
+{/* <section className="py-16 px-6 md:px-12 bg-[#fff5ee]">
   <div className="max-w-7xl mx-auto">
     <div className="flex items-center justify-between mb-8">
       <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Meet Our Pets</h2>
@@ -212,10 +362,10 @@ useEffect(() => {
       ))}
     </div>
   </div>
-</section>
+</section> */}
 
 {/* Featured Products Section */}
-<section className="py-16 px-6 md:px-12 bg-white">
+{/* <section className="py-16 px-6 md:px-12 bg-white">
   <div className="max-w-7xl mx-auto">
     <div className="flex items-center justify-between mb-8">
       <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Featured Products</h2>
@@ -240,10 +390,4 @@ useEffect(() => {
       ))}
     </div>
   </div>
-</section>
-
-    </div>
-  );
-};
-
-export default Home;
+</section> */}
