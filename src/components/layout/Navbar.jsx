@@ -19,7 +19,7 @@ const Navbar = () => {
   const confirmLogout = () => {
     logout();
     setShowConfirm(false);
-    navigate("/login");
+    navigate("/");
   };
 
   const isActive = (path) =>
@@ -30,13 +30,25 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-orange-100 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-      {/* Brand */}
-      <Link 
+      {/* Brand with Custom Logo */}
+      <Link  
         to="/" 
-        className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105" 
+        className="flex items-center gap-3 hover:opacity-80 transition-all duration-300 transform hover:scale-105 group" 
         title="Home"
       >
-        🐾 My Pet
+        <div className="w-10 h-10 rounded-full overflow-hidden shadow-md group-hover:shadow-lg transition-all duration-300">
+          <img 
+            src="/pet-care (1).png" 
+            alt="My Pet Logo" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <span 
+          className="text-xl font-bold text-black group-hover:text-gray-800 transition-all duration-300"
+          style={{ fontFamily: '"Fredoka One", cursive' }}
+        >
+          My Pet
+        </span>
       </Link>
 
       {/* Main Nav */}
@@ -128,26 +140,29 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Logout Modal */}
+      {/* Improved Logout Modal */}
       {showConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
-          <div className="bg-white p-8 rounded-2xl shadow-2xl text-center transform animate-pulse border border-gray-200">
-            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">👋</span>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-40 animate-fadeIn">
+          <div className="bg-white p-8 rounded-2xl shadow-2xl text-center transform animate-scaleIn border border-gray-200 max-w-md mx-4">
+            <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+              <span className="text-3xl">👋</span>
             </div>
-            <p className="mb-6 text-gray-800 font-semibold text-lg">
-              Are you sure you want to logout?
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              Confirm Logout
+            </h3>
+            <p className="mb-8 text-gray-600 leading-relaxed">
+              Are you sure you want to logout from your account?
             </p>
             <div className="flex justify-center gap-4">
               <button
                 onClick={confirmLogout}
-                className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full hover:from-red-600 hover:to-red-700 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                className="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:ring-4 focus:ring-red-200"
               >
                 Yes, Logout
               </button>
               <button
                 onClick={() => setShowConfirm(false)}
-                className="px-6 py-3 bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200 font-medium transition-all duration-300 transform hover:scale-105 border border-gray-300 hover:border-gray-400"
+                className="px-8 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 font-semibold transition-all duration-300 transform hover:scale-105 border border-gray-300 hover:border-gray-400 focus:ring-4 focus:ring-gray-200"
               >
                 Cancel
               </button>
@@ -155,6 +170,37 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      {/* Add custom animations to your CSS */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        .animate-scaleIn {
+          animation: scaleIn 0.3s ease-out;
+        }
+      `}</style>
     </nav>
   );
 };

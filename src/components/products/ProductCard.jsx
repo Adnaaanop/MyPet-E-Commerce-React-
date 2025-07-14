@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 p-4 cursor-pointer overflow-hidden relative">
-      {/* Image Container with Overlay */}
+  
       <div className="relative overflow-hidden rounded-lg mb-4">
         <img
           src={product.image}
@@ -19,7 +19,6 @@ const ProductCard = ({ product }) => {
           className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110"
         />
         
-        {/* Gradient overlay that appears on hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Wishlist button */}
@@ -35,7 +34,7 @@ const ProductCard = ({ product }) => {
           )}
         </button>
 
-        {/* Quick action buttons that appear on hover */}
+        {/* Quick action button  hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
           <div className="flex gap-3">
             <Link
@@ -52,19 +51,17 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
 
-        {/* Price badge */}
         <div className="absolute bottom-3 left-3 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
           ₹{product.price}
         </div>
       </div>
 
-      {/* Content */}
       <div className="space-y-2">
         <h3 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-300 line-clamp-1">
           {product.name}
         </h3>
 
-        {/* Pet-specific information */}
+        {/* Pet information */}
         {isPet && (
           <div className="space-y-1">
             <p className="text-sm text-gray-600 font-medium">{product.breed}</p>
@@ -76,7 +73,7 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Product-specific information */}
+        {/* Product information */}
         {!isPet && (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
@@ -98,7 +95,7 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Action button that slides up on hover */}
+        {/* Action button thatt slides up- hover */}
         <div className="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pt-2">
           <Link
             to={`/${isPet ? "pets" : "products"}/${product.id}`}
@@ -113,7 +110,7 @@ const ProductCard = ({ product }) => {
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-orange-400 to-orange-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
       
-      {/* Corner accent */}
+      {/* Corner  */}
       <div className="absolute top-0 right-0 w-0 h-0 border-l-[25px] border-l-transparent border-t-[25px] border-t-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
     </div>
   );

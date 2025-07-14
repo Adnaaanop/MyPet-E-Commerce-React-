@@ -30,7 +30,8 @@ const Dashboard = () => {
     axios.get(`${BASE_URL}/orders`).then((res) => setOrders(res.data));
   }, []);
 
-  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+  const totalRevenue = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+
 
   const cards = [
     {

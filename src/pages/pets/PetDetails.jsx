@@ -263,14 +263,14 @@ const PetDetails = () => {
                     </span>
                   </button>
 
-                  <div className="flex gap-3">
+                  {/* <div className="flex gap-3">
                     <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 text-sm">
-                      Ask Question
+                      Ask Quesasdtion
                     </button>
                     <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 text-sm">
                       Share
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Additional Info */}

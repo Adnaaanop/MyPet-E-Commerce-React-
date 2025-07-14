@@ -326,7 +326,7 @@ const ProductDetails = () => {
                     </span>
                   </button>
 
-                  <div className="flex gap-3">
+                  {/* <div className="flex gap-3">
                     <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 text-sm">
                       <span className="flex items-center justify-center gap-1">
                         <FaQuestion className="text-xs" />
@@ -339,7 +339,7 @@ const ProductDetails = () => {
                         Share
                       </span>
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Additional Info */}

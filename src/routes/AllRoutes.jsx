@@ -169,6 +169,14 @@ const AllRoutes = () => {
           </BasicLayout>
         }
       />
+      <Route
+        path="/user/home"
+        element={
+          <BasicLayout>
+            <Home />
+          </BasicLayout>
+        }
+      />
     </Routes>
   );
 };
