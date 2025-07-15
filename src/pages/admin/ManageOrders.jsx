@@ -1,4 +1,4 @@
-// src/pages/admin/ManageOrders.jsx
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
@@ -65,14 +65,14 @@ const ManageOrders = () => {
         ...selectedOrder,
         status: newStatus,
       });
-      fetchOrders(); // Refresh list
+      fetchOrders(); 
       closeModal();
     } catch (err) {
       console.error("Error updating order:", err);
     }
   };
 
-  // 🟨 Stats
+  //  Stats
   const totalOrders = orders.length;
   const pendingCount = orders.filter((o) => o.status === "Pending").length;
   const shippedCount = orders.filter((o) => o.status === "Shipped").length;
@@ -82,7 +82,7 @@ const ManageOrders = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Manage Orders</h2>
 
-      {/* 🟨 Summary Stats */}
+      {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
         <div className="bg-gray-100 p-4 rounded shadow">
           <p className="text-sm text-gray-500">Total Orders</p>

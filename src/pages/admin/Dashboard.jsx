@@ -124,7 +124,7 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Bar Chart - Products */}
+        {/* Bar Chart */}
         <div className="bg-white p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2 text-gray-700">Product Categories</h2>
           <ResponsiveContainer width="100%" height={250}>

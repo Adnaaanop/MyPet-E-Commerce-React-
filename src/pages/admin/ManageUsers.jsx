@@ -1,4 +1,3 @@
-// src/pages/admin/ManageUsers.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
@@ -30,7 +29,7 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
-  // 🔍 Filter Logic
+  //  Filter 
   useEffect(() => {
     let filtered = [...users];
 
@@ -53,7 +52,7 @@ const ManageUsers = () => {
     }
 
     setFilteredUsers(filtered);
-    setCurrentPage(1); // Reset to first page on filters change
+    setCurrentPage(1); // Reset 
   }, [searchTerm, roleFilter, statusFilter, users]);
 
   const handleToggleStatus = async (user) => {
@@ -62,7 +61,7 @@ const ManageUsers = () => {
       await axios.patch(`${BASE_URL}/users/${user.id}`, {
         status: newStatus,
       });
-      fetchUsers(); // Refresh list
+      fetchUsers(); 
     } catch (err) {
       console.error("Failed to update user status:", err);
     }
@@ -75,7 +74,7 @@ const ManageUsers = () => {
     setCurrentPage(1);
   };
 
-  // 📄 Pagination Logic
+  //  Pagination Logic
   const totalPages = Math.ceil(filteredUsers.length / USERS_PER_PAGE);
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * USERS_PER_PAGE,
@@ -86,7 +85,7 @@ const ManageUsers = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
-      {/* 🔍 Search + Filters + Clear */}
+      {/*  Search + Filters + Clear */}
       <div className="flex flex-wrap gap-4 mb-6 items-center">
         <input
           type="text"
@@ -124,7 +123,7 @@ const ManageUsers = () => {
         </button>
       </div>
 
-      {/* 🧾 Users List */}
+      {/* Users List */}
       {loading ? (
         <p>Loading users...</p>
       ) : filteredUsers.length === 0 ? (
@@ -186,7 +185,7 @@ const ManageUsers = () => {
             ))}
           </div>
 
-          {/* 📄 Pagination Controls */}
+          {/*  Pagination  */}
           <div className="flex justify-center mt-8 gap-4">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

@@ -48,7 +48,7 @@ useEffect(() => {
             to="/products"
             className="bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition font-semibold text-lg"
           >
-            Make A Reservation
+            Browse our Products right now
           </Link>
         </div>
 

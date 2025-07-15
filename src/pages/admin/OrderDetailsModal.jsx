@@ -24,11 +24,11 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/products`);
-      const productMap = {};
-      res.data.forEach((prod) => {
-        productMap[prod.id] = prod;
-      });
+      // const res = await axios.get(`${BASE_URL}/products`);
+      // const productMap = {};
+      // res.data.forEach((prod) => {
+      //   productMap[prod.id] = prod;
+      // });
 
       const productDetails = order.items.map((item) => {
         return {

@@ -1,4 +1,4 @@
-// src/context/AuthContext.jsx
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../services/base";
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           const user = res.data;
 
-          // ✅ Check if user is blocked
+          
           if (user.status === "blocked") {
             alert("Your account has been blocked by the admin.");
             logout(); // Auto logout
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         })
         .catch((err) => {
           console.error("Auth load failed", err);
-          logout(); // Clear broken session
+          logout(); // 
         });
     }
   }, []);

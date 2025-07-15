@@ -48,7 +48,7 @@ useEffect(() => {
             to="/products"
             className="bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition font-semibold text-lg"
           >
-            Make A Reservation
+            Browse
           </Link>
         </div>
 
@@ -336,57 +336,3 @@ useEffect(() => {
 };
 
 export default Home;
-{/* <section className="py-16 px-6 md:px-12 bg-[#fff5ee]">
-  <div className="max-w-7xl mx-auto">
-    <div className="flex items-center justify-between mb-8">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Meet Our Pets</h2>
-      <Link
-        to="/pets"
-        className="text-orange-500 font-semibold hover:underline"
-      >
-        View More Pets →
-      </Link>
-    </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {pets.slice(0, 3).map((pet) => (
-        <div key={pet.id} className="bg-white rounded-xl shadow hover:shadow-lg transition p-4">
-          <img
-            src={pet.image}
-            alt={pet.name}
-            className="w-full h-52 object-cover rounded-lg mb-4"
-          />
-          <h3 className="text-lg font-semibold text-gray-800">{pet.name}</h3>
-          <p className="text-sm text-gray-500">{pet.breed}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section> */}
-
-{/* Featured Products Section */}
-{/* <section className="py-16 px-6 md:px-12 bg-white">
-  <div className="max-w-7xl mx-auto">
-    <div className="flex items-center justify-between mb-8">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Featured Products</h2>
-      <Link
-        to="/products"
-        className="text-orange-500 font-semibold hover:underline"
-      >
-        View More Products →
-      </Link>
-    </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {products.slice(0, 3).map((product) => (
-        <div key={product.id} className="bg-[#fff5ee] rounded-xl shadow hover:shadow-lg transition p-4">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-52 object-cover rounded-lg mb-4"
-          />
-          <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-          <p className="text-sm text-gray-500">₹{product.price}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section> */}

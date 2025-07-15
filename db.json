@@ -151,7 +151,7 @@
       "price": 430,
       "description": "Complete and balanced dog food for adult dogs.",
       "rating": 4.5,
-      "stock": 993,
+      "stock": 991,
       "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -181,7 +181,7 @@
       "price": 1200,
       "description": "Includes tank, filter, and lights – great for beginners.",
       "rating": 4.6,
-      "stock": 1188,
+      "stock": 1185,
       "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -5435,6 +5435,133 @@
       },
       "status": "Placed",
       "placedAt": "2025-07-14T16:34:50.490Z"
+    },
+    {
+      "id": "fe5a",
+      "items": [
+        {
+          "id": "1752551399757-0.14445626007173795",
+          "name": "Pixie",
+          "breed": "Ragdoll",
+          "age": 4,
+          "description": "Tiny, sneaky, and full of sass—this cat lives to cause chaos and look cute doing it.",
+          "price": 4000,
+          "stock": 499,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1666194009942-33b69cb12ca5?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "65b2",
+          "userId": null,
+          "type": "pet"
+        },
+        {
+          "id": "1752551412087-0.19151772652583587",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1188,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 2,
+          "productId": "4",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "userId": "ab9d",
+      "total": 6400,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-15T03:50:20.380Z"
+    },
+    {
+      "id": "506b",
+      "items": [
+        {
+          "id": "1752558412923-0.461560166499807",
+          "name": "Chikku",
+          "price": 4000,
+          "stock": 2100,
+          "category": "Bird",
+          "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "breed": "Budgies",
+          "age": 1,
+          "quantity": 1,
+          "productId": "ed45",
+          "userId": "ab9d",
+          "type": "pet"
+        }
+      ],
+      "userId": "ab9d",
+      "total": 4000,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-15T05:47:04.983Z"
+    },
+    {
+      "id": "c3e1",
+      "items": [
+        {
+          "id": "1752574897105-0.11819687871752149",
+          "name": "Pedigree Adult Dog Food",
+          "category": "Dog",
+          "price": 430,
+          "description": "Complete and balanced dog food for adult dogs.",
+          "rating": 4.5,
+          "stock": 993,
+          "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 2,
+          "productId": "1",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "userId": "ab9d",
+      "total": 860,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-15T10:21:48.060Z"
+    },
+    {
+      "id": "be52",
+      "items": [
+        {
+          "id": "1752575214326-0.767429686101157",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1186,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "quantity": 1,
+          "productId": "4",
+          "userId": "ab9d",
+          "type": "product"
+        }
+      ],
+      "userId": "ab9d",
+      "total": 1200,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-15T10:27:03.695Z"
     }
   ],
   "cart": [
@@ -5490,6 +5617,21 @@
       "productId": "2",
       "userId": "dd82",
       "type": "product"
+    },
+    {
+      "id": "1752572613936-0.354979034967566",
+      "name": "Max",
+      "breed": "Labrador",
+      "age": 2,
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "stock": 1999,
+      "description": "cute dog",
+      "productId": "1752469178357-0.7952621853563935",
+      "userId": "dd82",
+      "quantity": 1,
+      "type": "pet"
     }
   ],
   "wishlist": [
@@ -5503,32 +5645,6 @@
       "category": "Bird",
       "productId": "3",
       "userId": "53a8"
-    },
-    {
-      "id": "1752469178357-0.7952621853563935",
-      "name": "Max",
-      "breed": "Labrador",
-      "age": 2,
-      "price": 14000,
-      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "category": "Dog",
-      "stock": 1999,
-      "description": "cute dog",
-      "productId": "5",
-      "userId": "dd82"
-    },
-    {
-      "id": "1752488841861-0.562701940445452",
-      "name": "Sulthan",
-      "breed": "White Lion",
-      "age": 12,
-      "description": "good lion",
-      "price": 3000000,
-      "stock": 30,
-      "category": "Lion",
-      "image": "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "productId": "16a3",
-      "userId": "ab9d"
     },
     {
       "id": "1752490279121-0.8733877224516314",
@@ -5603,7 +5719,7 @@
       "id": "ed45",
       "name": "Chikku",
       "price": 4000,
-      "stock": 2100,
+      "stock": 2099,
       "category": "Bird",
       "image": "https://images.unsplash.com/photo-1645164284684-0afd0d700a1b?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "breed": "Budgies",
@@ -5627,7 +5743,7 @@
       "age": 4,
       "description": "Tiny, sneaky, and full of sass—this cat lives to cause chaos and look cute doing it.",
       "price": 4000,
-      "stock": 499,
+      "stock": 498,
       "category": "Cat",
       "image": "https://images.unsplash.com/photo-1666194009942-33b69cb12ca5?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },

@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-orange-100 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-      {/* Brand with Custom Logo */}
+      {/* Brand n Logo */}
       <Link  
         to="/" 
         className="flex items-center gap-3 hover:opacity-80 transition-all duration-300 transform hover:scale-105 group" 
@@ -140,7 +140,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Improved Logout Modal */}
+      {/*  Logout Modal */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-40 animate-fadeIn">
           <div className="bg-white p-8 rounded-2xl shadow-2xl text-center transform animate-scaleIn border border-gray-200 max-w-md mx-4">
@@ -171,7 +171,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Add custom animations to your CSS */}
+      {/* custom animations  */}
       <style jsx>{`
         @keyframes fadeIn {
           from {

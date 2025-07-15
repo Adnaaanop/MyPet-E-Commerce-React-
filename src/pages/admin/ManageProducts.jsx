@@ -64,7 +64,7 @@ const ManageProducts = () => {
           onClick={() => navigate("/admin/add-product")}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          ➕ Add Product
+           Add Product
         </button>
       </div>
 

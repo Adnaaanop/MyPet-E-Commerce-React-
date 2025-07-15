@@ -1,4 +1,3 @@
-// ✅ PetForm.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -21,7 +20,7 @@ const PetForm = ({ initialValues, onSubmit, isEdit = false }) => {
   return (
     <div className="bg-white p-6 rounded shadow max-w-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-blue-700">
-        {isEdit ? "✏️ Edit Pet" : "➕ Add Pet"}
+        {isEdit ? " Edit Pet" : " Add Pet"}
       </h2>
       <Formik
         initialValues={initialValues}

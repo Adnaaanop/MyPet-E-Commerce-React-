@@ -17,7 +17,7 @@ const ProductForm = ({ initialValues, onSubmit, isEdit = false }) => {
   return (
     <div className="bg-white p-6 rounded shadow max-w-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-blue-700">
-        {isEdit ? "✏️ Edit Product" : "➕ Add Product"}
+        {isEdit ? " Edit Product" : " Add Product"}
       </h2>
       <Formik
         initialValues={initialValues}
@@ -67,7 +67,7 @@ const ProductForm = ({ initialValues, onSubmit, isEdit = false }) => {
             <ErrorMessage name="rating" component="div" className="text-red-500 text-sm" />
           </div>
 
-          {/* Image URL */}
+          {/* Image  */}
           <div>
             <label className="block font-medium">Image URL</label>
             <Field name="image" className="w-full border px-3 py-2 rounded" placeholder="Paste Unsplash URL" />
