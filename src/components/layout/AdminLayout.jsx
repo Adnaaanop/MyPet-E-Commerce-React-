@@ -40,7 +40,7 @@ const AdminLayout = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-52 bg-white shadow-md sticky top-0 h-screen p-4 hidden md:block flex flex-col">
+      <aside className="w-52 bg-white shadow-md sticky top-0 h-screen p-4 hidden md:block flex-col">
         <div className="flex-1">
           <h2 className="text-xl font-bold text-blue-600 mb-6">Admin Panel</h2>
           <nav className="space-y-2">
