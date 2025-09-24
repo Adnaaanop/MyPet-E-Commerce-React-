@@ -181,7 +181,7 @@
       "price": 1200,
       "description": "Includes tank, filter, and lights – great for beginners.",
       "rating": 4.6,
-      "stock": 1185,
+      "stock": 1184,
       "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -198,7 +198,7 @@
       "id": "dd94",
       "name": "Ball for Cats",
       "price": 500,
-      "stock": 598,
+      "stock": 597,
       "category": "Cat",
       "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "rating": 3,
@@ -5692,6 +5692,91 @@
       },
       "status": "Placed",
       "placedAt": "2025-07-15T11:43:49.794Z"
+    },
+    {
+      "id": "6208",
+      "items": [
+        {
+          "id": "1752810612294-0.08257575295263453",
+          "name": "Polly",
+          "breed": "Macaw Parrot",
+          "age": 3,
+          "price": 8000,
+          "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "category": "Bird",
+          "stock": 796,
+          "description": "Naughty Parrot",
+          "quantity": 1,
+          "productId": "3",
+          "userId": "dd82",
+          "type": "pet"
+        }
+      ],
+      "userId": "dd82",
+      "total": 8000,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-07-18T03:50:30.411Z"
+    },
+    {
+      "id": "af62",
+      "items": [
+        {
+          "id": "1757391527383-0.18187713809129857",
+          "name": "Aquarium Starter Kit",
+          "category": "Fish",
+          "price": 1200,
+          "description": "Includes tank, filter, and lights – great for beginners.",
+          "rating": 4.6,
+          "stock": 1185,
+          "image": "https://images.unsplash.com/photo-1579967327980-2a4117da0e4a?q=80&w=1698&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "productId": "1757391453657-0.6165791653104312",
+          "userId": "ab9d",
+          "quantity": 1,
+          "type": "product"
+        }
+      ],
+      "userId": "ab9d",
+      "total": 1200,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-09-09T04:19:17.474Z"
+    },
+    {
+      "id": "6ff3",
+      "items": [
+        {
+          "id": "1757933952844-0.19384108732251404",
+          "name": "Ball for Cats",
+          "price": 500,
+          "stock": 598,
+          "category": "Cat",
+          "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 3,
+          "description": "Ball perfectly suitable for small cats",
+          "quantity": 1,
+          "productId": "dd94",
+          "userId": "dd82",
+          "type": "product"
+        }
+      ],
+      "userId": "dd82",
+      "total": 500,
+      "address": {
+        "street": "123 Pet Street",
+        "city": "PetCity",
+        "pincode": "123456"
+      },
+      "status": "Placed",
+      "placedAt": "2025-09-15T10:59:26.316Z"
     }
   ],
   "cart": [
@@ -5733,6 +5818,65 @@
       "productId": "1",
       "userId": "53a8",
       "type": "pet"
+    },
+    {
+      "id": "1757396833387-0.33493950822540186",
+      "name": "Wh",
+      "breed": "Persian Cat",
+      "age": 1,
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1583404283135-ee11fa80b2a2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Cat",
+      "stock": 900,
+      "description": "Good Cat",
+      "quantity": 1,
+      "productId": "2",
+      "userId": "ab9d",
+      "type": "pet"
+    },
+    {
+      "id": "1757401151572-0.3069093514250054",
+      "name": "Buddy",
+      "breed": "Golden Retriever",
+      "age": 2,
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "stock": 1175,
+      "description": "Good Dog",
+      "productId": "1757401127334-0.997915598072439",
+      "userId": "ab9d",
+      "quantity": 1,
+      "type": "pet"
+    },
+    {
+      "id": "1757401151572-0.5357824714473859",
+      "name": "Max",
+      "breed": "Labrador",
+      "age": 2,
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1628234506867-b9b1af67bc06?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Dog",
+      "stock": 1997,
+      "description": "cute dog",
+      "productId": "1757401146058-0.3880557494606107",
+      "userId": "ab9d",
+      "quantity": 1,
+      "type": "pet"
+    },
+    {
+      "id": "1757934676320-0.04399412169274142",
+      "name": "Pedigree Adult Dog Food",
+      "category": "Dog",
+      "price": 430,
+      "description": "Complete and balanced dog food for adult dogs.",
+      "rating": 4.5,
+      "stock": 991,
+      "image": "https://plus.unsplash.com/premium_photo-1683134386510-ea7b2395fb37?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "quantity": 1,
+      "productId": "1",
+      "userId": "dd82",
+      "type": "product"
     }
   ],
   "wishlist": [
@@ -5784,6 +5928,18 @@
       "description": "Good Dog",
       "productId": "1",
       "userId": null
+    },
+    {
+      "id": "1758005619478-0.745233792256961",
+      "name": "Ball for Cats",
+      "price": 500,
+      "stock": 597,
+      "category": "Cat",
+      "image": "https://images.unsplash.com/photo-1619043544743-b72f69e2a077?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": 3,
+      "description": "Ball perfectly suitable for small cats",
+      "productId": "dd94",
+      "userId": "dd82"
     }
   ],
   "pets": [
@@ -5817,7 +5973,7 @@
       "price": 8000,
       "image": "https://images.unsplash.com/photo-1680749512095-039b69a23ad2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Bird",
-      "stock": 796,
+      "stock": 795,
       "description": "Naughty Parrot"
     },
     {

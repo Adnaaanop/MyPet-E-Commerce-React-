@@ -17,22 +17,27 @@ const ProductList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`${BASE_URL}/products`)
-      .then((res) => {
-        setProducts(res.data);
-        setFilteredProducts(res.data);
-        setIsLoading(false);
-        // toast.success('Products loaded successfully!');
-      })
-      .catch((err) => {
-        console.error("Error fetching products", err);
-        setIsLoading(false);
-        toast.error('Failed to load products. Please try again.');
-      });
-  }, []);
+useEffect(() => {
+  setIsLoading(true);
+  axios
+    .get(`${BASE_URL}/products`)
+    .then((res) => {
+      console.log("API response:", res.data); // For debugging
+      const fetchedProducts = Array.isArray(res.data.data) ? res.data.data : [];
+      setProducts(fetchedProducts);
+      setFilteredProducts(fetchedProducts);
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching products", err);
+      setIsLoading(false);
+      toast.error('Failed to load products. Please try again.');
+    });
+}, []);
+
+
+
+
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 

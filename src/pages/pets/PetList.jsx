@@ -22,16 +22,19 @@ const PetList = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${BASE_URL}/pets`)
-      .then((res) => {
-        setPets(res.data);
-        setFilteredPets(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching pets", err);
-        setIsLoading(false);
-      });
+  .get(`${BASE_URL}/pets`)
+  .then((res) => {
+    // If your API returns { success: true, data: [...] }
+    const petsArray = Array.isArray(res.data.data) ? res.data.data : [];
+    setPets(petsArray);
+    setFilteredPets(petsArray);
+    setIsLoading(false);
+  })
+  .catch((err) => {
+    console.error("Error fetching pets", err);
+    setIsLoading(false);
+  });
+
   }, []);
 
   useEffect(() => {

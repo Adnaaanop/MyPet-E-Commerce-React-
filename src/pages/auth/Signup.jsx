@@ -30,23 +30,29 @@ const Signup = () => {
   });
 
   const handleSubmit = async (values, actions) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/users`, values);
-      const userId = response.data.id;
+  try {
+    // 1️⃣ Call backend register endpoint
+    const response = await axios.post(`${BASE_URL}/auth/register`, values);
 
-      login(userId, values.role);
+    // 2️⃣ Get the full user object from backend
+    const user = response.data; // {id, name, email, role}
 
-      actions.resetForm();
+    // 3️⃣ Log in via AuthContext
+    login(user);
 
-      if (values.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Signup error:", error);
-    }
-  };
+    // 4️⃣ Reset form
+    actions.resetForm();
+
+    // 5️⃣ Redirect based on role
+    if (user.role === "admin") navigate("/admin/dashboard");
+    else navigate("/user/home");
+
+  } catch (error) {
+    console.error("Signup error:", error.response?.data || error.message);
+    actions.setSubmitting(false);
+    actions.setErrors({ email: error.response?.data?.message || "Signup failed" });
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fff5ee] via-orange-50 to-orange-100 font-sans relative overflow-hidden smooth-scroll">

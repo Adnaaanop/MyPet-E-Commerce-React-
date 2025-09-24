@@ -7,6 +7,8 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import { BASE_URL } from "../../services/base";
 import { useAuth } from "../../context/AuthContext";
+//  import api from "../../services/api/"; 
+ import api from "../../services/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -25,47 +27,38 @@ function Login() {
       .max(20, "Password must not exceed 20 characters"),
   });
 
-  const handleSubmit = async (values, actions) => {
-    try {
-      const res = await axios.get(`${BASE_URL}/users`);
+ const handleSubmit = async (values, actions) => {
+  try {
+    // Call backend login endpoint
+    const res = await api.post("/auth/login", {
+      email: values.email,
+      password: values.password,
+    });
 
-      const user = res.data.find(
-        (user) =>
-          user.email === values.email &&
-          user.password === values.password &&
-          user.status !== "blocked"
-      );
+    // Backend returns user info
+    const user = res.data.data;
 
-      if (user) {
-        login(user.id, user.role);
+    if (user) {
+      login(user.id, user.role, user.name); // update AuthContext
 
-        if (user.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/user/home");
-        }
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
       } else {
-        const blockedUser = res.data.find(
-          (user) =>
-            user.email === values.email &&
-            user.password === values.password &&
-            user.status === "blocked"
-        );
-
-        if (blockedUser) {
-          actions.setFieldError("email", "User is blocked by admin");
-          actions.setFieldError("password", " ");
-        } else {
-          actions.setFieldError("email", "Invalid credentials");
-          actions.setFieldError("password", " ");
-        }
+        navigate("/user/home");
       }
-    } catch (err) {
-      console.error("Login failed", err);
-      actions.setFieldError("email", "Something went wrong");
-      actions.setFieldError("password", " ");
     }
-  };
+  } catch (err) {
+    console.error("Login failed", err);
+    // Optional: backend may return error messages
+    if (err.response && err.response.data?.message) {
+      actions.setFieldError("email", err.response.data.message);
+    } else {
+      actions.setFieldError("email", "Something went wrong");
+    }
+    actions.setFieldError("password", " ");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fff5ee] via-orange-50 to-orange-100 font-sans relative overflow-hidden">

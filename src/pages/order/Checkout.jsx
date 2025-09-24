@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext"; // Import AuthContext
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../services/base";
 import toast, { Toaster } from "react-hot-toast";
 
 const Checkout = () => {
-  
   const { cartItems, clearCart } = useCart();
+  const { user, isLoggedIn,loading } = useAuth(); // Use AuthContext
   const navigate = useNavigate();
-  // const userId = localStorage.getItem("userId");
-
 
   const [address, setAddress] = useState({
     street: "",
@@ -19,108 +18,286 @@ const Checkout = () => {
   });
 
   const [showConfirm, setShowConfirm] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
     0
   );
 
-const placeFinalOrder = async () => {
-  try {
-    const userId = localStorage.getItem("userId");
+  const placeCODOrder = async () => {
+    try {
+      if (!isLoggedIn || !user?.id) {
+        toast.error("Please log in to place an order.", {
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#374151",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            fontSize: "14px",
+            fontWeight: "500",
+          },
+          icon: "🔐",
+        });
+        navigate("/login");
+        return;
+      }
 
-    for (const item of cartItems) {
-      const endpoint = item.type === "pet" ? "pets" : "products";
-      const res = await axios.get(`${BASE_URL}/${endpoint}`);
-      const data = res.data;
+      for (const item of cartItems) {
+        const endpoint = item.petId ? "pets" : "products";
+        const res = await axios.get(`${BASE_URL}/${endpoint}`, {
+          withCredentials: true, // Include cookies
+        });
+        const data = res.data;
 
-      const actualItem = data.find(el => el.name === item.name);
-      if (!actualItem) continue;
+        const actualItem = data.find((el) => el.id === (item.productId || item.petId));
+        if (!actualItem) continue;
 
-      const updatedStock = actualItem.stock - item.quantity;
+        const updatedStock = actualItem.stock - (item.quantity || 1);
 
-      await axios.patch(`${BASE_URL}/${endpoint}/${actualItem.id}`, {
-        stock: updatedStock,
+        await axios.patch(
+          `${BASE_URL}/${endpoint}/${actualItem.id}`,
+          { stock: updatedStock },
+          { withCredentials: true }
+        );
+      }
+
+      const orderData = {
+        items: cartItems,
+        userId: user.id, // Use user.id from AuthContext
+        total: totalPrice,
+        address: {
+          street: address.street || "123 Pet Street",
+          city: address.city || "PetCity",
+          pincode: address.pincode || "123456",
+        },
+        status: "Placed",
+        placedAt: new Date().toISOString(),
+      };
+
+      const res = await axios.post(`${BASE_URL}/orders`, orderData, {
+        withCredentials: true,
       });
-    }
+      const newOrder = res.data;
 
-    const orderData = {
-      items: cartItems,
-      userId,
-      total: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-      address: {
-        street: "123 Pet Street",
-        city: "PetCity",
-        pincode: "123456"
-      },
-      status: "Placed",
-      placedAt: new Date().toISOString()
-    };
+      await Promise.all(
+        cartItems.map((item) =>
+          axios.delete(`${BASE_URL}/cart/${item.id}`, { withCredentials: true })
+        )
+      );
 
-    const res = await axios.post(`${BASE_URL}/orders`, orderData);
-    const newOrder = res.data;
-
-    await Promise.all(cartItems.map(item => axios.delete(`${BASE_URL}/cart/${item.id}`)));
-
-    navigate("/order-summary", { state: { order: newOrder } });
-
-  } catch (error) {
-    console.error("Error placing order:", error);
-  }
-};
-
-
-
-  const handlePlaceOrder = () => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      toast.error("Please log in to place an order.", {
+      clearCart();
+      navigate("/order-summary", { state: { order: newOrder } });
+      toast.success("Order placed successfully!", {
         duration: 3000,
         style: {
           background: "#ffffff",
           color: "#374151",
-          border: "1px solid #ef4444",
+          border: "1px solid #22c55e",
           borderRadius: "8px",
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
           fontSize: "14px",
           fontWeight: "500",
         },
-        icon: "🔐",
+        icon: "✅",
       });
-      return;
+    } catch (error) {
+      console.error("Error placing COD order:", error);
+      toast.error("Failed to place COD order. Please try again.");
     }
-
-    if (!address.street || !address.city || !address.pincode) {
-      toast.error("Please fill all address fields.", {
-        duration: 3000,
-        style: {
-          background: "#ffffff",
-          color: "#374151",
-          border: "1px solid #ef4444",
-          borderRadius: "8px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-          fontSize: "14px",
-          fontWeight: "500",
-        },
-        icon: "⚠️",
-      });
-      return;
-    }
-
-    setShowConfirm(true);
   };
 
+  const handleRazorpayPayment = async () => {
+    try {
+      if (!isLoggedIn || !user?.id) {
+        toast.error("Please log in to proceed with payment.", {
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#374151",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            fontSize: "14px",
+            fontWeight: "500",
+          },
+          icon: "🔐",
+        });
+        navigate("/login");
+        return;
+      }
+
+      if (!address.street || !address.city || !address.pincode) {
+        toast.error("Please fill all address fields.", {
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#374151",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            fontSize: "14px",
+            fontWeight: "500",
+          },
+          icon: "⚠️",
+        });
+        return;
+      }
+
+      // Call create-razorpay-order endpoint
+      const response = await axios.post(
+        `${BASE_URL}/orders/create-razorpay-order`,
+        {
+          total: totalPrice,
+          street: address.street,
+          city: address.city,
+          pincode: address.pincode,
+        },
+        { withCredentials: true }
+      );
+
+      const { data } = response.data;
+      if (!data.orderId) {
+        throw new Error("Razorpay order ID is missing");
+      }
+
+      // Load Razorpay checkout script
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        const options = {
+          key: data.key,
+          amount: data.amount,
+          currency: data.currency,
+          name: data.name,
+          description: data.description,
+          image: data.image,
+          order_id: data.orderId,
+          handler: async function (response) {
+            try {
+              const paymentResponse = await axios.post(
+                `${BASE_URL}/orders/razorpay-handler`,
+                {
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpaySignature: response.razorpay_signature,
+                },
+                { withCredentials: true }
+              );
+
+              const newOrder = paymentResponse.data.order;
+              clearCart();
+              navigate("/order-summary", { state: { order: newOrder } });
+              toast.success("Payment successful! Order placed.", {
+                duration: 3000,
+                style: {
+                  background: "#ffffff",
+                  color: "#374151",
+                  border: "1px solid #22c55e",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                },
+                icon: "✅",
+              });
+            } catch (error) {
+              console.error("Error verifying payment:", error);
+              toast.error("Payment verification failed. Please contact support.");
+            }
+          },
+          prefill: data.prefill,
+          theme: data.theme,
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      };
+    } catch (error) {
+      console.error("Error initiating Razorpay payment:", error);
+      toast.error("Failed to initiate payment. Please try again.");
+    }
+  };
+
+  const handlePlaceOrder = (method) => {
+  if (loading) {
+    toast.error("Please wait, checking authentication...", {
+      duration: 3000,
+      style: {
+        background: "#ffffff",
+        color: "#374151",
+        border: "1px solid #ef4444",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        fontSize: "14px",
+        fontWeight: "500",
+      },
+      icon: "⏳",
+    });
+    return;
+  }
+
+  if (!isLoggedIn || !user?.id) {
+    toast.error("Please log in to place an order.", {
+      duration: 3000,
+      style: {
+        background: "#ffffff",
+        color: "#374151",
+        border: "1px solid #ef4444",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        fontSize: "14px",
+        fontWeight: "500",
+      },
+      icon: "🔐",
+    });
+    navigate("/login");
+    return;
+  }
+
+  if (!address.street || !address.city || !address.pincode) {
+    toast.error("Please fill all address fields.", {
+      duration: 3000,
+      style: {
+        background: "#ffffff",
+        color: "#374151",
+        border: "1px solid #ef4444",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        fontSize: "14px",
+        fontWeight: "500",
+      },
+      icon: "⚠️",
+    });
+    return;
+  }
+
+  setPaymentMethod(method);
+  setShowConfirm(true);
+};
+
+  const confirmOrder = () => {
+    if (paymentMethod === "COD") {
+      placeCODOrder();
+    } else if (paymentMethod === "Razorpay") {
+      handleRazorpayPayment();
+    }
+    setShowConfirm(false);
+  };
+
+  // Rest of the JSX remains identical to your provided Checkout.jsx
   return (
     <div className="min-h-screen bg-[#fff5ee] font-sans">
-      {/* Hero Section */}
       <div className="bg-gradient-to-br from-orange-50 to-orange-100 py-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 animate-fade-in-up"
-            style={{
-              fontFamily: '"Fredoka One", cursive',
-              lineHeight: "1.1",
-            }}
+            style={{ fontFamily: '"Fredoka One", cursive', lineHeight: "1.1" }}
           >
             🧾 Checkout
           </h1>
@@ -163,9 +340,7 @@ const placeFinalOrder = async () => {
           </div>
         ) : (
           <div className="flex gap-8">
-            {/* Main Content Area */}
             <div className="flex-1 max-w-4xl">
-              {/* Order Summary Header */}
               <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -194,7 +369,6 @@ const placeFinalOrder = async () => {
                 </div>
               </div>
 
-              {/* Cart Items */}
               <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in-up delay-100">
                 <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                   <svg
@@ -217,37 +391,34 @@ const placeFinalOrder = async () => {
                     <div
                       key={item.id}
                       className="group flex items-center justify-between border border-gray-100 p-4 rounded-xl hover:shadow-md transition-all duration-300 transform hover:scale-[1.01] relative overflow-hidden"
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                      }}
+                      style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      {/* Decorative gradient line */}
                       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
 
                       <div className="flex items-center gap-4">
                         <div className="relative overflow-hidden rounded-lg">
                           <img
-                            src={item.image}
-                            alt={item.name}
+                            src={item.imageUrl || ""}
+                            alt={item.productName || item.petName || "Item"}
                             className="w-20 h-20 object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         </div>
                         <div>
                           <h4 className="font-semibold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
-                            {item.name}
+                            {item.productName || item.petName || "Unnamed Item"}
                           </h4>
                           <p className="text-sm text-gray-500 flex items-center gap-2">
-                            <span className="font-medium">₹{item.price}</span>
+                            <span className="font-medium">₹{item.price || 0}</span>
                             <span>×</span>
                             <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
-                              {item.quantity}
+                              {item.quantity || 1}
                             </span>
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-lg text-green-600">
-                          ₹{item.price * item.quantity}
+                          ₹{(item.price || 0) * (item.quantity || 1)}
                         </p>
                       </div>
                     </div>
@@ -255,7 +426,6 @@ const placeFinalOrder = async () => {
                 </div>
               </div>
 
-              {/* Shipping Address */}
               <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in-up delay-200">
                 <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                   <svg
@@ -365,10 +535,7 @@ const placeFinalOrder = async () => {
               </div>
             </div>
 
-            {/* Sidebar */}
             <div className="hidden lg:block w-80 space-y-6">
-              {/* Order Total Card */}
-              {/* Order Bill Card */}
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
@@ -394,7 +561,6 @@ const placeFinalOrder = async () => {
                   </div>
                 </div>
 
-                {/* Bill Items */}
                 <div className="space-y-3 mb-4">
                   {cartItems.map((item, index) => (
                     <div
@@ -403,22 +569,21 @@ const placeFinalOrder = async () => {
                     >
                       <div className="flex-1">
                         <h4 className="font-medium text-gray-800 text-sm truncate">
-                          {item.name}
+                          {item.productName || item.petName || "Unnamed Item"}
                         </h4>
                         <p className="text-xs text-gray-500">
-                          ₹{item.price} × {item.quantity}
+                          ₹{item.price || 0} × {item.quantity || 1}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-gray-800">
-                          ₹{item.price * item.quantity}
+                          ₹{(item.price || 0) * (item.quantity || 1)}
                         </p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                {/* Bill Summary */}
                 <div className="bg-white rounded-xl p-4 space-y-3">
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">
@@ -449,7 +614,7 @@ const placeFinalOrder = async () => {
                 </div>
 
                 <button
-                  onClick={handlePlaceOrder}
+                  onClick={() => handlePlaceOrder("COD")}
                   className="w-full mt-6 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                 >
                   <svg
@@ -467,9 +632,27 @@ const placeFinalOrder = async () => {
                   </svg>
                   Place Order (COD)
                 </button>
+                <button
+                  onClick={() => handlePlaceOrder("Razorpay")}
+                  className="w-full mt-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  Pay with Razorpay
+                </button>
               </div>
 
-              {/* Payment Info Card */}
               <div className="bg-white rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-100">
                 <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                   <svg
@@ -514,6 +697,20 @@ const placeFinalOrder = async () => {
                         clipRule="evenodd"
                       />
                     </svg>
+                    <span className="text-sm">Razorpay Secure Payments</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                     <span className="text-sm">100% Secure</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-600">
@@ -537,11 +734,9 @@ const placeFinalOrder = async () => {
         )}
       </div>
 
-      {/* Enhanced Order Confirmation Modal */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-md mx-4 transform transition-all duration-300 scale-100 animate-modal-enter">
-            {/* Animated checkmark */}
             <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center animate-pulse">
               <svg
                 className="w-10 h-10 text-green-600"
@@ -571,7 +766,7 @@ const placeFinalOrder = async () => {
               </div>
               <div className="flex justify-between items-center text-sm text-gray-500">
                 <span>Payment Method:</span>
-                <span className="font-medium">Cash on Delivery</span>
+                <span className="font-medium">{paymentMethod === "COD" ? "Cash on Delivery" : "Razorpay"}</span>
               </div>
             </div>
 
@@ -591,7 +786,7 @@ const placeFinalOrder = async () => {
                 Cancel
               </button>
               <button
-                onClick={placeFinalOrder}
+                onClick={confirmOrder}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold flex items-center justify-center gap-2"
               >
                 <svg
@@ -614,24 +809,17 @@ const placeFinalOrder = async () => {
         </div>
       )}
 
-      {/* React Hot Toast Container */}
       <Toaster
         position="top-center"
         reverseOrder={false}
         gutter={8}
-        containerStyle={{
-          zIndex: 9999,
-        }}
+        containerStyle={{ zIndex: 9999 }}
         toastOptions={{
           duration: 3000,
-          style: {
-            fontSize: "14px",
-            fontWeight: "500",
-          },
+          style: { fontSize: "14px", fontWeight: "500" },
         }}
       />
 
-      {/* Custom CSS for animations */}
       <style jsx>{`
         @keyframes fade-in-up {
           from {
@@ -671,12 +859,10 @@ const placeFinalOrder = async () => {
           animation-delay: 200ms;
         }
 
-        /* Smooth scrolling for the entire page */
         html {
           scroll-behavior: smooth;
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
           width: 8px;
         }

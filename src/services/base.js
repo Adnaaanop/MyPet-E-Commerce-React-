@@ -1,1 +1,1 @@
-export const BASE_URL = "https://json-server-petshop-oeig.onrender.com";
+export const BASE_URL = "https://localhost:7200/api";
