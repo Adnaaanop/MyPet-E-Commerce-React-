@@ -1,19 +1,39 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../services/base";
+import api from "../../services/api"; // Use configured api instance
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 
 const ManagePets = () => {
   const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/pets`)
-      .then((res) => setPets(res.data))
-      .catch((err) => console.error("Error fetching pets:", err));
+    const fetchPets = async () => {
+      try {
+        console.log("Fetching pets from /pets");
+        const res = await api.get("/pets");
+        console.log("Pets response:", res.data);
+
+        // Validate response structure
+        const petsData = Array.isArray(res.data.data) ? res.data.data : [];
+        console.log("Processed pets data:", petsData);
+
+        setPets(petsData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching pets:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+        setError("Failed to load pets. Please try again.");
+        setLoading(false);
+      }
+    };
+    fetchPets();
   }, []);
 
   const handleDelete = async (id) => {
@@ -29,10 +49,16 @@ const ManagePets = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.delete(`${BASE_URL}/pets/${id}`);
+        console.log(`Deleting pet with id: ${id}`);
+        await api.delete(`/pets/${id}`);
         setPets((prev) => prev.filter((p) => p.id !== id));
         Swal.fire("Deleted!", "The pet has been removed.", "success");
       } catch (err) {
+        console.error("Delete failed:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
         Swal.fire("Error", "Failed to delete the pet.", "error");
       }
     }
@@ -56,6 +82,14 @@ const ManagePets = () => {
       width: 500,
     });
   };
+
+  if (loading) {
+    return <div className="p-6">Loading pets...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-600">{error}</div>;
+  }
 
   return (
     <div className="p-6">
@@ -82,44 +116,45 @@ const ManagePets = () => {
             </tr>
           </thead>
           <tbody>
-            {pets.map((pet) => (
-              <tr key={pet.id} className="border-t hover:bg-gray-50">
-                <td className="p-3">
-                  <img src={pet.image} alt={pet.name} className="w-12 h-12 object-cover rounded" />
-                </td>
-                <td className="p-3">{pet.name}</td>
-                <td className="p-3">{pet.category}</td>
-                <td className="p-3">₹{pet.price}</td>
-                <td className="p-3">{pet.stock}</td>
-                <td className="p-3 space-x-2">
-                  <button
-                    onClick={() => navigate(`/admin/edit-pet/${pet.id}`)}
-                    className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(pet.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handlePreview(pet)}
-                    title="Preview"
-                    className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
-                  >
-                    <FaEye />
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {pets.length === 0 && (
+            {pets.length === 0 ? (
               <tr>
                 <td colSpan="6" className="text-center py-4 text-gray-500">
                   No pets available.
                 </td>
               </tr>
+            ) : (
+              pets.map((pet) => (
+                <tr key={pet.id} className="border-t hover:bg-gray-50">
+                  <td className="p-3">
+                    <img src={pet.image} alt={pet.name} className="w-12 h-12 object-cover rounded" />
+                  </td>
+                  <td className="p-3">{pet.name}</td>
+                  <td className="p-3">{pet.category}</td>
+                  <td className="p-3">₹{pet.price}</td>
+                  <td className="p-3">{pet.stock}</td>
+                  <td className="p-3 space-x-2">
+                    <button
+                      onClick={() => navigate(`/admin/edit-pet/${pet.id}`)}
+                      className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(pet.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handlePreview(pet)}
+                      title="Preview"
+                      className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
+                    >
+                      <FaEye />
+                    </button>
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>

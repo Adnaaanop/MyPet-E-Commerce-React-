@@ -1,19 +1,39 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../services/base";
+import api from "../../services/api"; // Use configured api instance
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/products`)
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.error("Error fetching products:", err));
+    const fetchProducts = async () => {
+      try {
+        console.log("Fetching products from /products");
+        const res = await api.get("/products");
+        console.log("Products response:", res.data);
+
+        // Validate response structure
+        const productsData = Array.isArray(res.data.data) ? res.data.data : [];
+        console.log("Processed products data:", productsData);
+
+        setProducts(productsData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching products:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+        setError("Failed to load products. Please try again.");
+        setLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
 
   const handleDelete = async (id) => {
@@ -29,12 +49,17 @@ const ManageProducts = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${BASE_URL}/products/${id}`);
+        console.log(`Deleting product with id: ${id}`);
+        await api.delete(`/products/${id}`);
         setProducts((prev) => prev.filter((p) => p.id !== id));
         Swal.fire("Deleted!", "The product has been removed.", "success");
       } catch (error) {
+        console.error("Delete failed:", {
+          status: error.response?.status,
+          data: error.response?.data,
+          message: error.message,
+        });
         Swal.fire("Failed!", "An error occurred while deleting.", "error");
-        console.error("Delete failed", error);
       }
     }
   };
@@ -56,6 +81,14 @@ const ManageProducts = () => {
     });
   };
 
+  if (loading) {
+    return <div className="p-6">Loading products...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-600">{error}</div>;
+  }
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -64,7 +97,7 @@ const ManageProducts = () => {
           onClick={() => navigate("/admin/add-product")}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-           Add Product
+          Add Product
         </button>
       </div>
 
@@ -81,48 +114,49 @@ const ManageProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((prod) => (
-              <tr key={prod.id} className="border-t hover:bg-gray-50">
-                <td className="p-3">
-                  <img
-                    src={prod.image}
-                    alt={prod.name}
-                    className="w-12 h-12 object-cover rounded"
-                  />
-                </td>
-                <td className="p-3">{prod.name}</td>
-                <td className="p-3">₹{prod.price}</td>
-                <td className="p-3">{prod.category}</td>
-                <td className="p-3">{prod.stock}</td>
-                <td className="p-3 space-x-2">
-                  <button
-                    onClick={() => navigate(`/admin/edit-product/${prod.id}`)}
-                    className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(prod.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handlePreview(prod)}
-                    title="Preview"
-                    className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
-                  >
-                    <FaEye />
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {products.length === 0 && (
+            {products.length === 0 ? (
               <tr>
                 <td colSpan="6" className="text-center py-4 text-gray-500">
                   No products available.
                 </td>
               </tr>
+            ) : (
+              products.map((prod) => (
+                <tr key={prod.id} className="border-t hover:bg-gray-50">
+                  <td className="p-3">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                  </td>
+                  <td className="p-3">{prod.name}</td>
+                  <td className="p-3">₹{prod.price}</td>
+                  <td className="p-3">{prod.category}</td>
+                  <td className="p-3">{prod.stock}</td>
+                  <td className="p-3 space-x-2">
+                    <button
+                      onClick={() => navigate(`/admin/edit-product/${prod.id}`)}
+                      className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(prod.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handlePreview(prod)}
+                      title="Preview"
+                      className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
+                    >
+                      <FaEye />
+                    </button>
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>

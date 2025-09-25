@@ -35,17 +35,16 @@ function Login() {
       password: values.password,
     });
 
+    console.log("Login response:", res.data); // Log for debugging
+
     // Backend returns user info
     const user = res.data.data;
 
     if (user) {
-      login(user.id, user.role, user.name); // update AuthContext
-
-      if (user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/user/home");
-      }
+      // Normalize role to lowercase
+      const normalizedUser = { ...user, role: user.role.toLowerCase() };
+      console.log("Normalized user role:", normalizedUser.role); // Log for debugging
+      login(normalizedUser.id, normalizedUser.role, normalizedUser.name); // Update AuthContext
     }
   } catch (err) {
     console.error("Login failed", err);

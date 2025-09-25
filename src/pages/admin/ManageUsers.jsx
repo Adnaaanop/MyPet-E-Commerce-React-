@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../services/base";
+import api from "../../services/api"; // Use configured api instance
 
 const USERS_PER_PAGE = 6;
 
@@ -8,6 +7,7 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -16,11 +16,23 @@ const ManageUsers = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/users`);
-      setUsers(res.data);
-      setFilteredUsers(res.data);
+      console.log("Fetching users from /users");
+      const res = await api.get("/users");
+      console.log("Users response:", res.data);
+
+      // Validate response structure
+      const usersData = Array.isArray(res.data.data) ? res.data.data : [];
+      console.log("Processed users data:", usersData);
+
+      setUsers(usersData);
+      setFilteredUsers(usersData);
     } catch (err) {
-      console.error("Failed to fetch users:", err);
+      console.error("Failed to fetch users:", {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message,
+      });
+      setError("Failed to load users. Please try again.");
     }
     setLoading(false);
   };
@@ -29,7 +41,7 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
-  //  Filter 
+  // Filter
   useEffect(() => {
     let filtered = [...users];
 
@@ -42,28 +54,32 @@ const ManageUsers = () => {
     }
 
     if (roleFilter) {
-      filtered = filtered.filter((user) => user.role === roleFilter);
+      filtered = filtered.filter((user) => user.role.toLowerCase() === roleFilter.toLowerCase());
     }
 
     if (statusFilter) {
       filtered = filtered.filter(
-        (user) => (user.status || "active") === statusFilter
+        (user) => (user.status || "active").toLowerCase() === statusFilter.toLowerCase()
       );
     }
 
     setFilteredUsers(filtered);
-    setCurrentPage(1); // Reset 
+    setCurrentPage(1); // Reset to first page
   }, [searchTerm, roleFilter, statusFilter, users]);
 
   const handleToggleStatus = async (user) => {
-    const newStatus = user.status === "blocked" ? "active" : "blocked";
+    const newStatus = (user.status || "active") === "blocked" ? "active" : "blocked";
     try {
-      await axios.patch(`${BASE_URL}/users/${user.id}`, {
-        status: newStatus,
-      });
-      fetchUsers(); 
+      console.log(`Updating user ${user.id} status to: ${newStatus}`);
+      await api.patch(`/users/${user.id}`, { status: newStatus });
+      fetchUsers();
     } catch (err) {
-      console.error("Failed to update user status:", err);
+      console.error("Failed to update user status:", {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message,
+      });
+      setError("Failed to update user status. Please try again.");
     }
   };
 
@@ -74,18 +90,26 @@ const ManageUsers = () => {
     setCurrentPage(1);
   };
 
-  //  Pagination Logic
+  // Pagination Logic
   const totalPages = Math.ceil(filteredUsers.length / USERS_PER_PAGE);
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * USERS_PER_PAGE,
     currentPage * USERS_PER_PAGE
   );
 
+  if (loading) {
+    return <div className="p-6">Loading users...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-600">{error}</div>;
+  }
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
-      {/*  Search + Filters + Clear */}
+      {/* Search + Filters + Clear */}
       <div className="flex flex-wrap gap-4 mb-6 items-center">
         <input
           type="text"
@@ -124,9 +148,7 @@ const ManageUsers = () => {
       </div>
 
       {/* Users List */}
-      {loading ? (
-        <p>Loading users...</p>
-      ) : filteredUsers.length === 0 ? (
+      {filteredUsers.length === 0 ? (
         <p>No users match your filters.</p>
       ) : (
         <>
@@ -148,7 +170,7 @@ const ManageUsers = () => {
                   {/* Role badge */}
                   <span
                     className={`inline-block mt-2 px-2 py-1 text-xs rounded-full font-medium ${
-                      user.role === "admin"
+                      user.role.toLowerCase() === "admin"
                         ? "bg-blue-100 text-blue-700"
                         : "bg-gray-200 text-gray-800"
                     }`}
@@ -159,12 +181,12 @@ const ManageUsers = () => {
                   {/* Status badge */}
                   <span
                     className={`inline-block ml-2 px-2 py-1 text-xs rounded-full font-medium ${
-                      (user.status || "active") === "blocked"
+                      (user.status || "active").toLowerCase() === "blocked"
                         ? "bg-red-100 text-red-700"
                         : "bg-green-100 text-green-700"
                     }`}
                   >
-                    {(user.status || "active") === "blocked" ? "Blocked" : "Active"}
+                    {(user.status || "active").toLowerCase() === "blocked" ? "Blocked" : "Active"}
                   </span>
                 </div>
 
@@ -173,19 +195,19 @@ const ManageUsers = () => {
                   <button
                     onClick={() => handleToggleStatus(user)}
                     className={`text-xs px-3 py-1 rounded font-medium shadow-sm transition-colors duration-150 ${
-                      (user.status || "active") === "blocked"
+                      (user.status || "active").toLowerCase() === "blocked"
                         ? "bg-green-500 text-white hover:bg-green-600"
                         : "bg-red-500 text-white hover:bg-red-600"
                     }`}
                   >
-                    {(user.status || "active") === "blocked" ? "Unblock" : "Block"}
+                    {(user.status || "active").toLowerCase() === "blocked" ? "Unblock" : "Block"}
                   </button>
                 </div>
               </div>
             ))}
           </div>
 
-          {/*  Pagination  */}
+          {/* Pagination */}
           <div className="flex justify-center mt-8 gap-4">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

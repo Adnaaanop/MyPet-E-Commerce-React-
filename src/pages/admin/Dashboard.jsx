@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../services/base";
+import api from "../../services/api";
 import {
   Users,
   ShoppingCart,
@@ -23,15 +22,60 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/users`).then((res) => setUsers(res.data));
-    axios.get(`${BASE_URL}/products`).then((res) => setProducts(res.data));
-    axios.get(`${BASE_URL}/orders`).then((res) => setOrders(res.data));
+    const fetchData = async () => {
+      try {
+        const [usersRes, productsRes, ordersRes] = await Promise.all([
+          api.get("/users"),
+          api.get("/products"),
+          api.get("/orders"),
+        ]);
+
+        console.log("Users response:", usersRes.data);
+        console.log("Products response:", productsRes.data);
+        console.log("Orders response:", ordersRes.data);
+
+        // Validate response structure
+        const usersData = Array.isArray(usersRes.data.data) ? usersRes.data.data : [];
+        const productsData = Array.isArray(productsRes.data.data) ? productsRes.data.data : [];
+        const ordersData = Array.isArray(ordersRes.data.data) ? ordersRes.data.data : [];
+
+        console.log("Processed users data:", usersData);
+        console.log("Processed products data:", productsData);
+        console.log("Processed orders data:", ordersData);
+
+        setUsers(usersData);
+        setProducts(productsData);
+        setOrders(ordersData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching dashboard data:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+        setError("Failed to load dashboard data. Please try again.");
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
-  const totalRevenue = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+  if (loading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
 
+  if (error) {
+    return <div className="p-6 text-red-600">{error}</div>;
+  }
+
+  // Ensure orders is an array before reduce
+  const totalRevenue = Array.isArray(orders)
+    ? orders.reduce((sum, order) => sum + Number(order.total || 0), 0)
+    : 0;
 
   const cards = [
     {
