@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api"; // Use configured api instance
+import Swal from "sweetalert2";
 
 const USERS_PER_PAGE = 6;
 
@@ -68,18 +69,46 @@ const ManageUsers = () => {
   }, [searchTerm, roleFilter, statusFilter, users]);
 
   const handleToggleStatus = async (user) => {
-    const newStatus = (user.status || "active") === "blocked" ? "active" : "blocked";
-    try {
-      console.log(`Updating user ${user.id} status to: ${newStatus}`);
-      await api.patch(`/users/${user.id}`, { status: newStatus });
-      fetchUsers();
-    } catch (err) {
-      console.error("Failed to update user status:", {
-        status: err.response?.status,
-        data: err.response?.data,
-        message: err.message,
-      });
-      setError("Failed to update user status. Please try again.");
+    const currentStatus = (user.status || "active").toLowerCase();
+    const isBlocking = currentStatus === "active";
+    const action = isBlocking ? "block" : "unblock";
+    const result = await Swal.fire({
+      title: `Are you sure?`,
+      text: `The user ${user.name} will be ${action}ed.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: `Yes, ${action} it!`,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        console.log(`${isBlocking ? "Blocking" : "Unblocking"} user with id: ${user.id}`);
+        await api.put(`/users/${user.id}/${action}`);
+        setUsers((prev) =>
+          prev.map((u) =>
+            u.id === user.id ? { ...u, status: isBlocking ? "Blocked" : "Active" } : u
+          )
+        );
+        setFilteredUsers((prev) =>
+          prev.map((u) =>
+            u.id === user.id ? { ...u, status: isBlocking ? "Blocked" : "Active" } : u
+          )
+        );
+        Swal.fire(
+          `${isBlocking ? "Blocked" : "Unblocked"}!`,
+          `The user has been ${action}ed.`,
+          "success"
+        );
+      } catch (err) {
+        console.error(`Failed to ${action} user:`, {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+        Swal.fire("Failed!", `An error occurred while ${action}ing the user.`, "error");
+      }
     }
   };
 
