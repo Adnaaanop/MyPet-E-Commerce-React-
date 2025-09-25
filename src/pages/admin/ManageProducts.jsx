@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import api from "../../services/api"; // Use configured api instance
+import React, { useEffect, useState, useMemo } from "react";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
@@ -17,7 +17,6 @@ const ManageProducts = () => {
         const res = await api.get("/products");
         console.log("Products response:", res.data);
 
-        // Validate response structure
         const productsData = Array.isArray(res.data.data) ? res.data.data : [];
         console.log("Processed products data:", productsData);
 
@@ -65,10 +64,11 @@ const ManageProducts = () => {
   };
 
   const handlePreview = (product) => {
+    console.log("Previewing product imageUrl:", product.imageUrl);
     Swal.fire({
       title: `<strong>${product.name}</strong>`,
       html: `
-        <img src="${product.image}" alt="${product.name}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;" />
+        <img src="${product.imageUrl || 'https://via.placeholder.com/150'}" alt="${product.name}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;" onerror="this.src='https://via.placeholder.com/150';" />
         <p><strong>Price:</strong> ₹${product.price}</p>
         <p><strong>Category:</strong> ${product.category}</p>
         <p><strong>Stock:</strong> ${product.stock}</p>
@@ -80,6 +80,73 @@ const ManageProducts = () => {
       width: 500,
     });
   };
+
+  const memoizedTable = useMemo(() => (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border border-gray-200 bg-white rounded shadow">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="p-3">Image</th>
+            <th className="p-3">Name</th>
+            <th className="p-3">Price</th>
+            <th className="p-3">Category</th>
+            <th className="p-3">Stock</th>
+            <th className="p-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="text-center py-4 text-gray-500">
+                No products available.
+              </td>
+            </tr>
+          ) : (
+            products.map((prod) => (
+              <tr key={prod.id} className="border-t hover:bg-gray-50">
+                <td className="p-3">
+                  <img
+                    src={prod.imageUrl || 'https://via.placeholder.com/150'}
+                    alt={prod.name}
+                    className="w-12 h-12 object-cover rounded"
+                    onError={(e) => {
+                      console.error(`Failed to load image for product ${prod.id}: ${prod.imageUrl}`);
+                      e.target.src = 'https://via.placeholder.com/150';
+                    }}
+                  />
+                </td>
+                <td className="p-3">{prod.name}</td>
+                <td className="p-3">₹{prod.price}</td>
+                <td className="p-3">{prod.category}</td>
+                <td className="p-3">{prod.stock}</td>
+                <td className="p-3 space-x-2">
+                  <button
+                    onClick={() => navigate(`/admin/edit-product/${prod.id}`)}
+                    className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(prod.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => handlePreview(prod)}
+                    title="Preview"
+                    className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
+                  >
+                    <FaEye />
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  ), [products, navigate]);
 
   if (loading) {
     return <div className="p-6">Loading products...</div>;
@@ -100,67 +167,7 @@ const ManageProducts = () => {
           Add Product
         </button>
       </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border border-gray-200 bg-white rounded shadow">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-3">Image</th>
-              <th className="p-3">Name</th>
-              <th className="p-3">Price</th>
-              <th className="p-3">Category</th>
-              <th className="p-3">Stock</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="text-center py-4 text-gray-500">
-                  No products available.
-                </td>
-              </tr>
-            ) : (
-              products.map((prod) => (
-                <tr key={prod.id} className="border-t hover:bg-gray-50">
-                  <td className="p-3">
-                    <img
-                      src={prod.image}
-                      alt={prod.name}
-                      className="w-12 h-12 object-cover rounded"
-                    />
-                  </td>
-                  <td className="p-3">{prod.name}</td>
-                  <td className="p-3">₹{prod.price}</td>
-                  <td className="p-3">{prod.category}</td>
-                  <td className="p-3">{prod.stock}</td>
-                  <td className="p-3 space-x-2">
-                    <button
-                      onClick={() => navigate(`/admin/edit-product/${prod.id}`)}
-                      className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(prod.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => handlePreview(prod)}
-                      title="Preview"
-                      className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
-                    >
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {memoizedTable}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import api from "../../services/api"; // Use configured api instance
+import React, { useEffect, useState, useMemo } from "react";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
@@ -17,7 +17,6 @@ const ManagePets = () => {
         const res = await api.get("/pets");
         console.log("Pets response:", res.data);
 
-        // Validate response structure
         const petsData = Array.isArray(res.data.data) ? res.data.data : [];
         console.log("Processed pets data:", petsData);
 
@@ -65,10 +64,11 @@ const ManagePets = () => {
   };
 
   const handlePreview = (pet) => {
+    console.log("Previewing pet imageUrl:", pet.imageUrl);
     Swal.fire({
       title: `<strong>${pet.name}</strong>`,
       html: `
-        <img src="${pet.image}" alt="${pet.name}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;" />
+        <img src="${pet.imageUrl || 'https://via.placeholder.com/150'}" alt="${pet.name}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;" onerror="this.src='https://via.placeholder.com/150';" />
         <p><strong>Breed:</strong> ${pet.breed || "N/A"}</p>
         <p><strong>Age:</strong> ${pet.age ?? "N/A"} years</p>
         <p><strong>Category:</strong> ${pet.category}</p>
@@ -82,6 +82,73 @@ const ManagePets = () => {
       width: 500,
     });
   };
+
+  const memoizedTable = useMemo(() => (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border border-gray-200 bg-white rounded shadow">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="p-3">Image</th>
+            <th className="p-3">Name</th>
+            <th className="p-3">Category</th>
+            <th className="p-3">Price</th>
+            <th className="p-3">Stock</th>
+            <th className="p-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pets.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="text-center py-4 text-gray-500">
+                No pets available.
+              </td>
+            </tr>
+          ) : (
+            pets.map((pet) => (
+              <tr key={pet.id} className="border-t hover:bg-gray-50">
+                <td className="p-3">
+                  <img
+                    src={pet.imageUrl || 'https://via.placeholder.com/150'}
+                    alt={pet.name}
+                    className="w-12 h-12 object-cover rounded"
+                    onError={(e) => {
+                      console.error(`Failed to load image for pet ${pet.id}: ${pet.imageUrl}`);
+                      e.target.src = 'https://via.placeholder.com/150';
+                    }}
+                  />
+                </td>
+                <td className="p-3">{pet.name}</td>
+                <td className="p-3">{pet.category}</td>
+                <td className="p-3">₹{pet.price}</td>
+                <td className="p-3">{pet.stock}</td>
+                <td className="p-3 space-x-2">
+                  <button
+                    onClick={() => navigate(`/admin/edit-pet/${pet.id}`)}
+                    className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(pet.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => handlePreview(pet)}
+                    title="Preview"
+                    className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
+                  >
+                    <FaEye />
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  ), [pets, navigate]);
 
   if (loading) {
     return <div className="p-6">Loading pets...</div>;
@@ -102,63 +169,7 @@ const ManagePets = () => {
           ➕ Add Pet
         </button>
       </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border border-gray-200 bg-white rounded shadow">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-3">Image</th>
-              <th className="p-3">Name</th>
-              <th className="p-3">Category</th>
-              <th className="p-3">Price</th>
-              <th className="p-3">Stock</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pets.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="text-center py-4 text-gray-500">
-                  No pets available.
-                </td>
-              </tr>
-            ) : (
-              pets.map((pet) => (
-                <tr key={pet.id} className="border-t hover:bg-gray-50">
-                  <td className="p-3">
-                    <img src={pet.image} alt={pet.name} className="w-12 h-12 object-cover rounded" />
-                  </td>
-                  <td className="p-3">{pet.name}</td>
-                  <td className="p-3">{pet.category}</td>
-                  <td className="p-3">₹{pet.price}</td>
-                  <td className="p-3">{pet.stock}</td>
-                  <td className="p-3 space-x-2">
-                    <button
-                      onClick={() => navigate(`/admin/edit-pet/${pet.id}`)}
-                      className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(pet.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => handlePreview(pet)}
-                      title="Preview"
-                      className="bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200"
-                    >
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {memoizedTable}
     </div>
   );
 };
