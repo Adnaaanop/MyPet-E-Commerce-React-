@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api"; // Use custom api instance
 import { BASE_URL } from "../../services/base";
+import toast, { Toaster } from "react-hot-toast"; // Added Toaster for consistency
+import { useNavigate } from "react-router-dom"; // Added for navigation
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,32 +10,75 @@ const MyOrders = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // For redirecting on error
 
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (userId) {
-      // Replace with your API call
-      axios
-        .get(`${BASE_URL}/orders?userId=${userId}`)
-        .then((res) => {
-          setOrders(res.data);
-          setFilteredOrders(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching orders:", err);
-          setLoading(false);
+    const fetchOrders = async () => {
+      if (!userId) {
+        toast.error("Please log in to view your orders.", {
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#374151",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            fontSize: "14px",
+            fontWeight: "500",
+          },
+          icon: "🔐",
         });
-      
-      // For now, just set empty orders
-      setOrders([]);
-      setFilteredOrders([]);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }, [userId]);
+        navigate("/login");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await api.get(`${BASE_URL}/orders?userId=${userId}`);
+        const fetchedOrders = res.data.data || res.data; // Handle ApiResponse
+        setOrders(fetchedOrders || []);
+        setFilteredOrders(fetchedOrders || []);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+        if (err.response?.status === 401) {
+          toast.error("Session expired. Please log in again.", {
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#374151",
+              border: "1px solid #ef4444",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+            icon: "🔐",
+          });
+          navigate("/login");
+        } else {
+          toast.error("Failed to load orders.", {
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#374151",
+              border: "1px solid #ef4444",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+            icon: "⚠️",
+          });
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [userId, navigate]);
 
   useEffect(() => {
     let filtered = [...orders];
@@ -47,9 +92,9 @@ const MyOrders = () => {
     } else if (sortOrder === "oldest") {
       filtered.sort((a, b) => new Date(a.placedAt) - new Date(b.placedAt));
     } else if (sortOrder === "low") {
-      filtered.sort((a, b) => a.total - b.total);
+      filtered.sort((a, b) => (a.total || 0) - (b.total || 0));
     } else if (sortOrder === "high") {
-      filtered.sort((a, b) => b.total - a.total);
+      filtered.sort((a, b) => (b.total || 0) - (a.total || 0));
     }
 
     setFilteredOrders(filtered);
@@ -70,7 +115,7 @@ const MyOrders = () => {
       case "Delivered":
         return <span className={`${base} bg-green-100 text-green-700 shadow-md`}>Delivered</span>;
       default:
-        return <span className={`${base} bg-gray-100 text-gray-700 shadow-md`}>{status}</span>;
+        return <span className={`${base} bg-gray-100 text-gray-700 shadow-md`}>{status || "Unknown"}</span>;
     }
   };
 
@@ -134,7 +179,10 @@ const MyOrders = () => {
           </div>
           <h3 className="text-3xl font-bold text-gray-800 mb-4">No Orders Yet</h3>
           <p className="text-gray-600 text-lg mb-6">🐾 You haven't placed any orders yet. Start shopping now!</p>
-          <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+          <button 
+            onClick={() => navigate("/pets")} // Assuming /pets is the shopping page
+            className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
             Start Shopping
           </button>
         </div>
@@ -144,6 +192,16 @@ const MyOrders = () => {
 
   return (
     <div className="min-h-screen bg-[#fff5ee] font-sans">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerStyle={{ zIndex: 9999 }}
+        toastOptions={{
+          duration: 3000,
+          style: { fontSize: "14px", fontWeight: "500" },
+        }}
+      />
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-orange-50 to-orange-100 py-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
@@ -270,15 +328,15 @@ const MyOrders = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-800">Order #{order.id}</h3>
+                      <h3 className="text-lg font-bold text-gray-800">Order #{order.id || "N/A"}</h3>
                       <p className="text-sm text-gray-500">
-                        {new Date(order.placedAt).toLocaleDateString('en-US', { 
+                        {order.placedAt ? new Date(order.placedAt).toLocaleDateString('en-US', { 
                           year: 'numeric', 
                           month: 'long', 
                           day: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit'
-                        })}
+                        }) : "N/A"}
                       </p>
                     </div>
                   </div>
@@ -286,7 +344,7 @@ const MyOrders = () => {
                     {getStatusBadge(order.status)}
                     <div className="text-right">
                       <p className="text-sm text-gray-500">Total Amount</p>
-                      <p className="text-xl font-bold text-green-600">₹{order.total}</p>
+                      <p className="text-xl font-bold text-green-600">₹{order.total || 0}</p>
                     </div>
                   </div>
                 </div>
@@ -333,36 +391,36 @@ const MyOrders = () => {
                     <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
-                    Items ({order.items.length})
+                    Items ({(order.items || []).length})
                   </h4>
                   <div className="space-y-3">
-                    {order.items.map((item, idx) => (
+                    {(order.items || []).map((item, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.01]"
+                        className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-all africa duration-300 transform hover:scale-[1.01]"
                       >
                         <div className="flex items-center gap-4">
                           <div className="relative overflow-hidden rounded-lg">
                             <img
-                              src={item.image}
-                              alt={item.name}
+                              src={item.image || ""}
+                              alt={item.name || "Item"}
                               className="w-16 h-16 object-cover transition-transform duration-500 hover:scale-110"
                             />
                           </div>
                           <div>
-                            <h5 className="font-semibold text-gray-800">{item.name}</h5>
+                            <h5 className="font-semibold text-gray-800">{item.name || "Unnamed Item"}</h5>
                             <p className="text-sm text-gray-500 flex items-center gap-2">
-                              <span className="font-medium">₹{item.price}</span>
+                              <span className="font-medium">₹{item.price || 0}</span>
                               <span>×</span>
                               <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
-                                {item.quantity}
+                                {item.quantity || 1}
                               </span>
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="font-bold text-lg text-green-600">
-                            ₹{item.price * item.quantity}
+                            ₹{(item.price || 0) * (item.quantity || 1)}
                           </p>
                         </div>
                       </div>
@@ -381,13 +439,13 @@ const MyOrders = () => {
                     <div>
                       <p className="text-sm font-medium text-yellow-800">Estimated Delivery</p>
                       <p className="text-sm text-yellow-700">
-                        {new Date(
+                        {order.placedAt ? new Date(
                           new Date(order.placedAt).getTime() + 5 * 24 * 60 * 60 * 1000
                         ).toLocaleDateString('en-US', { 
                           year: 'numeric', 
                           month: 'long', 
                           day: 'numeric'
-                        })}
+                        }) : "N/A"}
                       </p>
                     </div>
                   </div>

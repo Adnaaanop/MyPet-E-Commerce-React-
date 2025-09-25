@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api"; // Use custom api instance
 import { BASE_URL } from "../../services/base";
+import toast, { Toaster } from "react-hot-toast";
 
 const OrderSummary = () => {
   const navigate = useNavigate();
@@ -15,19 +16,66 @@ const OrderSummary = () => {
     const fetchOrder = async () => {
       try {
         const orderId = passedOrder?.id;
-        if (!orderId) return;
+        if (!orderId) {
+          toast.error("No order found.", {
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#374151",
+              border: "1px solid #ef4444",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+            icon: "⚠️",
+          });
+          navigate("/");
+          return;
+        }
 
-        const res = await axios.get(`${BASE_URL}/orders/${orderId}`);
-        setOrder(res.data);
+        const res = await api.get(`${BASE_URL}/orders/${orderId}`);
+        setOrder(res.data.data || res.data); // Handle ApiResponse or direct data
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch order:", err);
+        if (err.response?.status === 401) {
+          toast.error("Session expired. Please log in again.", {
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#374151",
+              border: "1px solid #ef4444",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+            icon: "🔐",
+          });
+          navigate("/login");
+        } else {
+          toast.error("Failed to load order details.", {
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#374151",
+              border: "1px solid #ef4444",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+            icon: "⚠️",
+          });
+          navigate("/");
+        }
         setLoading(false);
       }
     };
 
     fetchOrder();
-  }, [passedOrder?.id]);
+  }, [passedOrder?.id, navigate]);
 
   const getProgressPercent = () => {
     switch (order?.status) {
@@ -98,11 +146,21 @@ const OrderSummary = () => {
     );
   }
 
-  const { items, total, address, status, placedAt, id } = order;
+  // Add null checks for order properties
+  const { items = [], total = 0, address = {}, status = "Unknown", placedAt = new Date(), id } = order;
 
   return (
     <div className="min-h-screen bg-[#fff5ee] font-sans">
-      {/* Hero Section */}
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerStyle={{ zIndex: 9999 }}
+        toastOptions={{
+          duration: 3000,
+          style: { fontSize: "14px", fontWeight: "500" },
+        }}
+      />
       <div className="bg-gradient-to-br from-green-50 to-green-100 py-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center animate-bounce">
@@ -127,16 +185,14 @@ const OrderSummary = () => {
 
       <div className="max-w-6xl mx-auto px-6 py-8">
         <div className="flex gap-8">
-          {/* Main Content */}
           <div className="flex-1">
-            {/* Order Info Card */}
             <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
                   <div className="w-2 h-8 bg-gradient-to-b from-green-500 to-green-600 rounded-full"></div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800">Order Details</h2>
-                    <p className="text-gray-500">Order ID: #{id}</p>
+                    <p className="text-gray-500">Order ID: #{id || "N/A"}</p>
                   </div>
                 </div>
                 <div className="hidden md:flex items-center gap-2 text-gray-600">
@@ -150,13 +206,15 @@ const OrderSummary = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Order Date</p>
-                  <p className="font-semibold text-gray-800">{new Date(placedAt).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}</p>
+                  <p className="font-semibold text-gray-800">
+                    {placedAt ? new Date(placedAt).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }) : "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Payment Method</p>
@@ -164,120 +222,115 @@ const OrderSummary = () => {
                     <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    Cash on Delivery
+                    {status === "Placed" ? "Cash on Delivery" : "Razorpay"}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Order Status Card */}
-            {/* Order Status Card */}
-<div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-100">
-  <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-    <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    Order Tracking
-  </h3>
-  
-  {/* Status Cards */}
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
-      status === "Placed" ? 'border-blue-500 bg-blue-50' : 
-      getProgressPercent() >= 33 ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
-    }`}>
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-          getProgressPercent() >= 33 ? 'bg-green-500' : 
-          status === "Placed" ? 'bg-blue-500' : 'bg-gray-300'
-        }`}>
-          {getProgressPercent() >= 33 ? (
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          ) : (
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          )}
-        </div>
-        <div>
-          <p className="font-semibold text-gray-800">Order Placed</p>
-          <p className="text-sm text-gray-600">Confirmed</p>
-        </div>
-      </div>
-    </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-100">
+              <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Order Tracking
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                  status === "Placed" ? 'border-blue-500 bg-blue-50' : 
+                  getProgressPercent() >= 33 ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      getProgressPercent() >= 33 ? 'bg-green-500' : 
+                      status === "Placed" ? 'bg-blue-500' : 'bg-gray-300'
+                    }`}>
+                      {getProgressPercent() >= 33 ? (
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Order Placed</p>
+                      <p className="text-sm text-gray-600">Confirmed</p>
+                    </div>
+                  </div>
+                </div>
 
-    <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
-      status === "Shipped" ? 'border-yellow-500 bg-yellow-50' : 
-      getProgressPercent() >= 66 ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
-    }`}>
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-          getProgressPercent() >= 66 ? 'bg-green-500' : 
-          status === "Shipped" ? 'bg-yellow-500' : 'bg-gray-300'
-        }`}>
-          {getProgressPercent() >= 66 ? (
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          ) : (
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          )}
-        </div>
-        <div>
-          <p className="font-semibold text-gray-800">Shipped</p>
-          <p className="text-sm text-gray-600">{status === "Shipped" ? "In Transit" : getProgressPercent() >= 66 ? "Completed" : "Pending"}</p>
-        </div>
-      </div>
-    </div>
+                <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                  status === "Shipped" ? 'border-yellow-500 bg-yellow-50' : 
+                  getProgressPercent() >= 66 ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      getProgressPercent() >= 66 ? 'bg-green-500' : 
+                      status === "Shipped" ? 'bg-yellow-500' : 'bg-gray-300'
+                    }`}>
+                      {getProgressPercent() >= 66 ? (
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Shipped</p>
+                      <p className="text-sm text-gray-600">{status === "Shipped" ? "In Transit" : getProgressPercent() >= 66 ? "Completed" : "Pending"}</p>
+                    </div>
+                  </div>
+                </div>
 
-    <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
-      status === "Delivered" ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
-    }`}>
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-          status === "Delivered" ? 'bg-green-500' : 'bg-gray-300'
-        }`}>
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z" />
-          </svg>
-        </div>
-        <div>
-          <p className="font-semibold text-gray-800">Delivered</p>
-          <p className="text-sm text-gray-600">{status === "Delivered" ? "Completed" : "Pending"}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+                <div className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                  status === "Delivered" ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      status === "Delivered" ? 'bg-green-500' : 'bg-gray-300'
+                    }`}>
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Delivered</p>
+                      <p className="text-sm text-gray-600">{status === "Delivered" ? "Completed" : "Pending"}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-  {/* Current Status Banner */}
-  <div className={`p-4 rounded-xl bg-gradient-to-r ${getStatusColor()}`}>
-    <div className="flex items-center justify-between text-white">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div>
-          <p className="font-semibold">Current Status: {status}</p>
-          <p className="text-sm opacity-90">Estimated Delivery: {getEstimatedDelivery()}</p>
-        </div>
-      </div>
-      <div className="text-right">
-        <p className="text-sm opacity-90">Your order is</p>
-        <p className="font-bold">{status.toLowerCase()}</p>
-      </div>
-    </div>
-  </div>
-</div>
+              <div className={`p-4 rounded-xl bg-gradient-to-r ${getStatusColor()}`}>
+                <div className="flex items-center justify-between text-white">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Current Status: {status}</p>
+                      <p className="text-sm opacity-90">Estimated Delivery: {getEstimatedDelivery()}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm opacity-90">Your order is</p>
+                    <p className="font-bold">{status.toLowerCase()}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Shipping Address Card */}
-            {/* <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-200">
+            <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-200">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -286,12 +339,11 @@ const OrderSummary = () => {
                 Delivery Address
               </h3>
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-gray-800 font-medium">{address.street}</p>
-                <p className="text-gray-600">{address.city}, {address.pincode}</p>
+                <p className="text-gray-800 font-medium">{address?.street || "N/A"}</p>
+                <p className="text-gray-600">{address?.city && address?.pincode ? `${address.city}, ${address.pincode}` : "Address not available"}</p>
               </div>
-            </div> */}
+            </div>
 
-            {/* Order Items Card */}
             <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-300">
               <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,27 +366,27 @@ const OrderSummary = () => {
                     <div className="flex items-center gap-4">
                       <div className="relative overflow-hidden rounded-lg">
                         <img
-                          src={item.image}
-                          alt={item.name}
+                          src={item.image || ""}
+                          alt={item.name || "Item"}
                           className="w-20 h-20 object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
                       <div>
                         <h4 className="font-semibold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
-                          {item.name}
+                          {item.name || "Unnamed Item"}
                         </h4>
                         <p className="text-sm text-gray-500 flex items-center gap-2">
-                          <span className="font-medium">₹{item.price}</span>
+                          <span className="font-medium">₹{item.price || 0}</span>
                           <span>×</span>
                           <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
-                            {item.quantity}
+                            {item.quantity || 1}
                           </span>
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-lg text-green-600">
-                        ₹{item.price * item.quantity}
+                        ₹{(item.price || 0) * (item.quantity || 1)}
                       </p>
                     </div>
                   </div>
@@ -343,9 +395,7 @@ const OrderSummary = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="hidden lg:block w-80 space-y-6">
-            {/* Order Summary Card */}
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
@@ -378,7 +428,6 @@ const OrderSummary = () => {
               </div>
             </div>
 
-            {/* Support Card */}
             <div className="bg-white rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-100">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -407,24 +456,23 @@ const OrderSummary = () => {
                 </div>
               </div>
             </div>
-            {/* Delivery Address Card */}
-<div className="bg-white rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-200">
-  <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-    <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-    Delivery Address
-  </h3>
-  <div className="bg-gray-50 rounded-xl p-4">
-    <p className="text-gray-800 font-medium">{address.street}</p>
-    <p className="text-gray-600">{address.city}, {address.pincode}</p>
-  </div>
-</div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl animate-fade-in-up delay-200">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Delivery Address
+              </h3>
+              <div className="bg-gray-50 rounded-xl p-4">
+                <p className="text-gray-800 font-medium">{address?.street || "N/A"}</p>
+                <p className="text-gray-600">{address?.city && address?.pincode ? `${address.city}, ${address.pincode}` : "Address not available"}</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex justify-center gap-4 mt-8 animate-fade-in-up delay-400">
           <button
             onClick={() => navigate("/")}
@@ -447,7 +495,6 @@ const OrderSummary = () => {
         </div>
       </div>
 
-      {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-md mx-4 transform transition-all duration-300 scale-100 animate-modal-enter">
@@ -483,7 +530,6 @@ const OrderSummary = () => {
         </div>
       )}
 
-      {/* Custom CSS for animations */}
       <style jsx>{`
         @keyframes fade-in-up {
           from {

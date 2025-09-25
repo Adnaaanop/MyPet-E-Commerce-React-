@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext"; // Import AuthContext
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api"; // Use custom api instance
 import { BASE_URL } from "../../services/base";
 import toast, { Toaster } from "react-hot-toast";
 
 const Checkout = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const { cartItems, clearCart } = useCart();
-  const { user, isLoggedIn,loading } = useAuth(); // Use AuthContext
+  const { isLoggedIn, loading } = useAuth(); // Removed user since ProtectedRoute handles auth
   const navigate = useNavigate();
 
   const [address, setAddress] = useState({
@@ -27,68 +37,18 @@ const Checkout = () => {
 
   const placeCODOrder = async () => {
     try {
-      if (!isLoggedIn || !user?.id) {
-        toast.error("Please log in to place an order.", {
-          duration: 3000,
-          style: {
-            background: "#ffffff",
-            color: "#374151",
-            border: "1px solid #ef4444",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            fontSize: "14px",
-            fontWeight: "500",
-          },
-          icon: "🔐",
-        });
-        navigate("/login");
-        return;
-      }
-
-      for (const item of cartItems) {
-        const endpoint = item.petId ? "pets" : "products";
-        const res = await axios.get(`${BASE_URL}/${endpoint}`, {
-          withCredentials: true, // Include cookies
-        });
-        const data = res.data;
-
-        const actualItem = data.find((el) => el.id === (item.productId || item.petId));
-        if (!actualItem) continue;
-
-        const updatedStock = actualItem.stock - (item.quantity || 1);
-
-        await axios.patch(
-          `${BASE_URL}/${endpoint}/${actualItem.id}`,
-          { stock: updatedStock },
-          { withCredentials: true }
-        );
-      }
-
+      // Send only fields expected by CreateOrderRequest
       const orderData = {
-        items: cartItems,
-        userId: user.id, // Use user.id from AuthContext
-        total: totalPrice,
-        address: {
-          street: address.street || "123 Pet Street",
-          city: address.city || "PetCity",
-          pincode: address.pincode || "123456",
-        },
+        street: address.street,
+        city: address.city,
+        pincode: address.pincode,
         status: "Placed",
-        placedAt: new Date().toISOString(),
       };
 
-      const res = await axios.post(`${BASE_URL}/orders`, orderData, {
-        withCredentials: true,
-      });
-      const newOrder = res.data;
+      const res = await api.post(`${BASE_URL}/orders`, orderData); // Use api
+      const newOrder = res.data.data; // Adjust based on ApiResponse structure
 
-      await Promise.all(
-        cartItems.map((item) =>
-          axios.delete(`${BASE_URL}/cart/${item.id}`, { withCredentials: true })
-        )
-      );
-
-      clearCart();
+      clearCart(); // Frontend clear (backend should also clear cart)
       navigate("/order-summary", { state: { order: newOrder } });
       toast.success("Order placed successfully!", {
         duration: 3000,
@@ -105,14 +65,8 @@ const Checkout = () => {
       });
     } catch (error) {
       console.error("Error placing COD order:", error);
-      toast.error("Failed to place COD order. Please try again.");
-    }
-  };
-
-  const handleRazorpayPayment = async () => {
-    try {
-      if (!isLoggedIn || !user?.id) {
-        toast.error("Please log in to proceed with payment.", {
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please log in again.", {
           duration: 3000,
           style: {
             background: "#ffffff",
@@ -126,11 +80,16 @@ const Checkout = () => {
           icon: "🔐",
         });
         navigate("/login");
-        return;
+      } else {
+        toast.error("Failed to place COD order. Please try again.");
       }
+    }
+  };
 
+  const handleRazorpayPayment = async () => {
+    try {
       if (!address.street || !address.city || !address.pincode) {
-        toast.error("Please fill all address fields.", {
+        return toast.error("Please fill all address fields.", {
           duration: 3000,
           style: {
             background: "#ffffff",
@@ -143,143 +102,134 @@ const Checkout = () => {
           },
           icon: "⚠️",
         });
-        return;
       }
 
-      // Call create-razorpay-order endpoint
-      const response = await axios.post(
+      const response = await api.post(
         `${BASE_URL}/orders/create-razorpay-order`,
         {
           total: totalPrice,
           street: address.street,
           city: address.city,
           pincode: address.pincode,
-        },
-        { withCredentials: true }
+        }
       );
 
       const { data } = response.data;
-      if (!data.orderId) {
-        throw new Error("Razorpay order ID is missing");
-      }
+      if (!data?.orderId) throw new Error("Failed to create Razorpay order");
 
-      // Load Razorpay checkout script
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        order_id: data.orderId,
+        handler: async (res) => {
+          try {
+            const verifyResponse = await api.post(
+              `${BASE_URL}/orders/razorpay-handler`,
+              {
+                razorpayOrderId: res.razorpay_order_id,
+                razorpayPaymentId: res.razorpay_payment_id,
+                razorpaySignature: res.razorpay_signature,
+              }
+            );
 
-      script.onload = () => {
-        const options = {
-          key: data.key,
-          amount: data.amount,
-          currency: data.currency,
-          name: data.name,
-          description: data.description,
-          image: data.image,
-          order_id: data.orderId,
-          handler: async function (response) {
-            try {
-              const paymentResponse = await axios.post(
-                `${BASE_URL}/orders/razorpay-handler`,
-                {
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpayPaymentId: response.razorpay_payment_id,
-                  razorpaySignature: response.razorpay_signature,
-                },
-                { withCredentials: true }
-              );
-
-              const newOrder = paymentResponse.data.order;
-              clearCart();
-              navigate("/order-summary", { state: { order: newOrder } });
-              toast.success("Payment successful! Order placed.", {
-                duration: 3000,
-                style: {
-                  background: "#ffffff",
-                  color: "#374151",
-                  border: "1px solid #22c55e",
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                },
-                icon: "✅",
-              });
-            } catch (error) {
-              console.error("Error verifying payment:", error);
+            const newOrder = verifyResponse.data.order;
+            clearCart();
+            navigate("/order-summary", { state: { order: newOrder } });
+            toast.success("Payment successful! 🎉", {
+              duration: 3000,
+              style: {
+                background: "#ffffff",
+                color: "#374151",
+                border: "1px solid #22c55e",
+                borderRadius: "8px",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+              icon: "✅",
+            });
+          } catch (error) {
+            console.error("Payment verification error:", error);
+            if (error.response?.status === 401) {
+              toast.error("Session expired during verification. Please log in again.");
+              navigate("/login");
+            } else {
               toast.error("Payment verification failed. Please contact support.");
             }
-          },
-          prefill: data.prefill,
-          theme: data.theme,
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
+          }
+        },
+        prefill: data.prefill,
+        theme: data.theme,
       };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (error) {
-      console.error("Error initiating Razorpay payment:", error);
-      toast.error("Failed to initiate payment. Please try again.");
+      console.error("Razorpay Payment Error:", error);
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please log in again.", {
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#374151",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            fontSize: "14px",
+            fontWeight: "500",
+          },
+          icon: "🔐",
+        });
+        navigate("/login");
+      } else {
+        toast.error("Failed to initiate payment. Please try again.");
+      }
     }
   };
 
   const handlePlaceOrder = (method) => {
-  if (loading) {
-    toast.error("Please wait, checking authentication...", {
-      duration: 3000,
-      style: {
-        background: "#ffffff",
-        color: "#374151",
-        border: "1px solid #ef4444",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-        fontSize: "14px",
-        fontWeight: "500",
-      },
-      icon: "⏳",
-    });
-    return;
-  }
+    if (loading) {
+      toast.error("Please wait, checking authentication...", {
+        duration: 3000,
+        style: {
+          background: "#ffffff",
+          color: "#374151",
+          border: "1px solid #ef4444",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          fontSize: "14px",
+          fontWeight: "500",
+        },
+        icon: "⏳",
+      });
+      setTimeout(() => handlePlaceOrder(method), 500);
+      return;
+    }
 
-  if (!isLoggedIn || !user?.id) {
-    toast.error("Please log in to place an order.", {
-      duration: 3000,
-      style: {
-        background: "#ffffff",
-        color: "#374151",
-        border: "1px solid #ef4444",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-        fontSize: "14px",
-        fontWeight: "500",
-      },
-      icon: "🔐",
-    });
-    navigate("/login");
-    return;
-  }
+    if (!address.street || !address.city || !address.pincode) {
+      toast.error("Please fill all address fields.", {
+        duration: 3000,
+        style: {
+          background: "#ffffff",
+          color: "#374151",
+          border: "1px solid #ef4444",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          fontSize: "14px",
+          fontWeight: "500",
+        },
+        icon: "⚠️",
+      });
+      return;
+    }
 
-  if (!address.street || !address.city || !address.pincode) {
-    toast.error("Please fill all address fields.", {
-      duration: 3000,
-      style: {
-        background: "#ffffff",
-        color: "#374151",
-        border: "1px solid #ef4444",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-        fontSize: "14px",
-        fontWeight: "500",
-      },
-      icon: "⚠️",
-    });
-    return;
-  }
-
-  setPaymentMethod(method);
-  setShowConfirm(true);
-};
+    setPaymentMethod(method);
+    setShowConfirm(true);
+  };
 
   const confirmOrder = () => {
     if (paymentMethod === "COD") {
@@ -290,7 +240,6 @@ const Checkout = () => {
     setShowConfirm(false);
   };
 
-  // Rest of the JSX remains identical to your provided Checkout.jsx
   return (
     <div className="min-h-screen bg-[#fff5ee] font-sans">
       <div className="bg-gradient-to-br from-orange-50 to-orange-100 py-16">
@@ -602,7 +551,7 @@ const Checkout = () => {
                     <span className="font-semibold text-green-600">₹0</span>
                   </div>
                   <div className="border-t pt-3">
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between hours-center">
                       <span className="text-lg font-bold text-gray-800">
                         Total Amount
                       </span>

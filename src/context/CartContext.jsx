@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
-import { getCart, addToCart as addToCartService, updateCartItem, removeCartItem, clearCart } from "../services/cartService";
+import { getCart, addToCart as addToCartService, updateCartItem, removeCartItem, clearCart as clearCartService } from "../services/cartService"; // Renamed to avoid shadowing
 
 const CartContext = createContext();
 
@@ -17,8 +17,8 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (item) => {
     try {
-      const newItem = await addToCartService(item); // Use renamed service function
-      await fetchCart(); // Refresh cart
+      const newItem = await addToCartService(item);
+      await fetchCart();
       return newItem;
     } catch (err) {
       throw err;
@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (itemId) => {
     try {
       await removeCartItem(itemId);
-      await fetchCart(); // Refresh cart
+      await fetchCart();
     } catch (err) {
       throw err;
     }
@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
       const item = cartItems.find((i) => i.id === itemId);
       if (!item) throw new Error("Item not found");
       await updateCartItem(itemId, item.quantity + 1);
-      await fetchCart(); // Refresh cart
+      await fetchCart();
     } catch (err) {
       throw err;
     }
@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
         await removeCartItem(itemId);
       } else {
         await updateCartItem(itemId, item.quantity - 1);
-        await fetchCart(); // Refresh cart
+        await fetchCart();
       }
     } catch (err) {
       throw err;
@@ -62,8 +62,9 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     try {
-      await clearCart();
-      setCartItems([]);
+      await clearCartService(); // Use renamed service function
+      setCartItems([]); // Clear state immediately
+      await fetchCart(); // Refresh to confirm
     } catch (err) {
       throw err;
     }
