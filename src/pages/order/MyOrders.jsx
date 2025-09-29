@@ -12,6 +12,9 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // For redirecting on error
 
+  console.log(orders);
+  
+
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -38,8 +41,10 @@ const MyOrders = () => {
       try {
         const res = await api.get(`${BASE_URL}/orders?userId=${userId}`);
         const fetchedOrders = res.data.data || res.data; // Handle ApiResponse
-        setOrders(fetchedOrders || []);
-        setFilteredOrders(fetchedOrders || []);
+        console.log(fetchedOrders);
+        
+        setOrders(fetchedOrders.orders || []);
+        setFilteredOrders(fetchedOrders.orders || []);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching orders:", err);
